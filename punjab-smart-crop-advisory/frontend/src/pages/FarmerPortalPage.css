@@ -1,0 +1,22 @@
+.farmer-portal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+  background-color: #eef2f5;
+}
+
+.farmer-portal-content {
+  width: 100%;
+  max-width: 500px; 
+  padding: 24px;
+  border-radius: 12px;
+}
+
+.react-chatbot-kit-chat-container {
+  width: 100% !important;
+}
+.react-chatbot-kit-chat-inner-container {
+  height: 60vh;
+}

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punjab Crop Yield Predictor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header .emoji {
+            font-size: 3em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .location-btn {
+            background: #28a745;
+            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .result.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .result.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .api-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .api-info h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .api-key {
+            background: #333;
+            color: #fff;
+            padding: 8px;
+            border-radius: 5px;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .recommendations {
+            margin-top: 20px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #28a745;
+        }
+
+        .recommendation-card {
+            background: white;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .recommendation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .crop-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .score {
+            background: #28a745;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .crop-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .reasons, .tips {
+            margin-top: 10px;
+        }
+
+        .reasons h4, .tips h4 {
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .reasons ul, .tips ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .reasons li, .tips li {
+            background: #f1f3f4;
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .reasons li:before {
+            content: "💡";
+            position: absolute;
+            left: 8px;
+        }
+
+        .tips li:before {
+            content: "💡";
+            position: absolute;
+            left: 8px;
+        }
+
+        .farming-tips {
+            margin-top: 20px;
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .farming-tips h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+        }
+
+        .seasonal-advice {
+            margin-top: 20px;
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ff9800;
+        }
+
+        .seasonal-advice h3 {
+            color: #f57c00;
+            margin-bottom: 15px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            border-bottom-color: #667eea;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="emoji">🌾</span>
+            <h1>Punjab Crop Predictor</h1>
+            <p>Simple & Smart Yield Prediction</p>
+        </div>
+
+        <div class="api-info">
+            <h3>API Configuration</h3>
+            <p><strong>API Key:</strong></p>
+            <div class="api-key">punjab_crop_api_2024</div>
+            <p style="margin-top: 10px;"><strong>Server:</strong> http://localhost:9090</p>
+            <button type="button" class="btn location-btn" onclick="testConnection()" style="margin-top: 10px;">
+                🔧 Test API Connection
+            </button>
+        </div>
+
+        <form id="predictionForm">
+            <button type="button" class="btn location-btn" onclick="getLocation()">
+                📍 Get My Location
+            </button>
+
+            <div class="form-group">
+                <label for="crop">🌱 Crop Type:</label>
+                <select id="crop" name="crop" required>
+                    <option value="">Select a crop</option>
+                    <option value="wheat">Wheat</option>
+                    <option value="rice">Rice</option>
+                    <option value="corn">Corn</option>
+                    <option value="cotton">Cotton</option>
+                    <option value="sugarcane">Sugarcane</option>
+                    <option value="potato">Potato</option>
+                    <option value="tomato">Tomato</option>
+                    <option value="onion">Onion</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="acres">🚜 Farm Size (Acres):</label>
+                <input type="number" id="acres" name="acres" min="0.1" step="0.1" required 
+                       placeholder="Enter farm size in acres">
+            </div>
+
+            <div class="form-group">
+                <label for="latitude">🗺️ Latitude:</label>
+                <input type="number" id="latitude" name="latitude" step="0.000001" required 
+                       placeholder="e.g., 30.7333" min="29" max="33">
+            </div>
+
+            <div class="form-group">
+                <label for="longitude">🗺️ Longitude:</label>
+                <input type="number" id="longitude" name="longitude" step="0.000001" required 
+                       placeholder="e.g., 76.7794" min="73" max="77">
+            </div>
+
+            <button type="submit" class="btn" id="submitBtn">
+                🔮 Predict Yield
+            </button>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Analyzing your farm data...</p>
+        </div>
+
+        <div class="result" id="result">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:9090';
+        const API_KEY = 'punjab_crop_api_2024';
+
+        // Test connection function
+        async function testConnection() {
+            console.log('Manual API test to:', API_BASE_URL);
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                console.log('Manual test response:', response.status);
+                const data = await response.json();
+                console.log('Manual test data:', data);
+                showMessage(`✅ API Connection Successful! Server is ${data.status}`, 'success');
+            } catch (error) {
+                console.error('Manual test error:', error);
+                showMessage('❌ Connection failed: ' + error.message, 'error');
+            }
+        }
+
+        // Get user's location
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        document.getElementById('latitude').value = position.coords.latitude.toFixed(6);
+                        document.getElementById('longitude').value = position.coords.longitude.toFixed(6);
+                        showMessage('Location detected successfully! 📍', 'success');
+                    },
+                    function(error) {
+                        showMessage('Unable to get location. Please enter manually. ❌', 'error');
+                    }
+                );
+            } else {
+                showMessage('Geolocation is not supported by this browser. ❌', 'error');
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = {
+                crop: formData.get('crop'),
+                acres: parseFloat(formData.get('acres')),
+                latitude: parseFloat(formData.get('latitude')),
+                longitude: parseFloat(formData.get('longitude'))
+            };
+
+            console.log('Sending prediction request:', data);
+
+            // Validate inputs
+            if (!data.crop || !data.acres || !data.latitude || !data.longitude) {
+                showResult({ error: 'Please fill in all fields' }, 'error');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('submitBtn').disabled = true;
+
+            try {
+                console.log('Making request to:', `${API_BASE_URL}/api/v1/predict`);
+                
+                const response = await fetch(`${API_BASE_URL}/api/v1/predict`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                console.log('Response status:', response.status);
+                const result = await response.json();
+                console.log('Response data:', result);
+
+                if (response.ok) {
+                    showResult(result, 'success');
+                } else {
+                    console.error('API Error:', result);
+                    showResult({ error: result.detail || 'Prediction failed' }, 'error');
+                }
+            } catch (error) {
+                console.error('Network Error:', error);
+                showResult({ error: 'Connection failed. Make sure the API server is running.' }, 'error');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+            }
+        });
+
+        function showResult(data, type) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = `result ${type}`;
+            
+            if (type === 'success') {
+                console.log('Success data:', data);
+                
+                // Generate recommendations HTML
+                let recommendationsHTML = '';
+                if (data.crop_recommendations && data.crop_recommendations.length > 0) {
+                    recommendationsHTML = `
+                        <div class="recommendations">
+                            <h3>🌱 Alternative Crop Recommendations</h3>
+                            ${data.crop_recommendations.map(rec => `
+                                <div class="recommendation-card">
+                                    <div class="recommendation-header">
+                                        <span class="crop-name">${rec.crop_name}</span>
+                                        <span class="score">${(rec.suitability_score * 100).toFixed(0)}%</span>
+                                    </div>
+                                    <div class="crop-info">
+                                        <div><strong>Expected Yield:</strong> ${rec.expected_yield.toFixed(1)} kg/acre</div>
+                                        <div><strong>Profitability:</strong> ${rec.profitability}</div>
+                                    </div>
+                                    <div class="reasons">
+                                        <h4>Why Choose This Crop:</h4>
+                                        <ul>
+                                            ${rec.reasons.map(reason => `<li>${reason}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                    <div class="tips">
+                                        <h4>Growing Tips:</h4>
+                                        <ul>
+                                            ${rec.tips.map(tip => `<li>${tip}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
+                // Generate farming tips HTML
+                let farmingTipsHTML = '';
+                if (data.farming_tips && data.farming_tips.length > 0) {
+                    farmingTipsHTML = `
+                        <div class="farming-tips">
+                            <h3>🚜 General Farming Tips</h3>
+                            <ul>
+                                ${data.farming_tips.map(tip => `<li>${tip}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                // Generate seasonal advice HTML
+                let seasonalAdviceHTML = '';
+                if (data.seasonal_advice) {
+                    seasonalAdviceHTML = `
+                        <div class="seasonal-advice">
+                            <h3>📅 Seasonal Advice</h3>
+                            <p>${data.seasonal_advice}</p>
+                        </div>
+                    `;
+                }
+
+                resultDiv.innerHTML = `
+                    <div class="tabs">
+                        <button class="tab active" onclick="showTab('prediction')">📊 Prediction</button>
+                        <button class="tab" onclick="showTab('recommendations')">🌱 Recommendations</button>
+                        <button class="tab" onclick="showTab('tips')">💡 Tips & Advice</button>
+                    </div>
+
+                    <div id="prediction" class="tab-content active">
+                        <h3>🎉 Yield Prediction Results</h3>
+                        <div style="font-size: 2em; margin: 20px 0; color: #28a745;">
+                            <strong>${data.predicted_yield.toFixed(2)} kg/acre</strong>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <p><strong>🌾 Crop:</strong> ${data.user_input.crop.charAt(0).toUpperCase() + data.user_input.crop.slice(1)}</p>
+                            <p><strong>🚜 Farm Size:</strong> ${data.user_input.farm_size_acres} acres</p>
+                            <p><strong>📈 Confidence:</strong> ${data.confidence}</p>
+                            <p><strong>📍 Location:</strong> ${data.user_input.latitude}°N, ${data.user_input.longitude}°E</p>
+                        </div>
+                        <div style="margin-top: 20px; font-size: 0.9em; background: #e8f5e8; padding: 15px; border-radius: 8px;">
+                            <p><strong>📊 Yield Range:</strong> ${data.yield_range.minimum.toFixed(1)} - ${data.yield_range.maximum.toFixed(1)} kg/acre</p>
+                            <p><strong>🌡️ Season:</strong> ${data.estimated_parameters.season}</p>
+                            <p><strong>🌡️ Temperature:</strong> ${data.estimated_parameters.temperature}</p>
+                            <p><strong>💧 Humidity:</strong> ${data.estimated_parameters.humidity}</p>
+                            <p><strong>🌧️ Rainfall:</strong> ${data.estimated_parameters.rainfall}</p>
+                        </div>
+                    </div>
+
+                    <div id="recommendations" class="tab-content">
+                        ${recommendationsHTML || '<p>No alternative recommendations available at this time.</p>'}
+                    </div>
+
+                    <div id="tips" class="tab-content">
+                        ${seasonalAdviceHTML}
+                        ${farmingTipsHTML || '<p>No specific farming tips available at this time.</p>'}
+                        <div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px; border-left: 4px solid #0066cc;">
+                            <p><strong>📞 Need Help?</strong> Contact your local agricultural extension officer or visit nearby Krishi Vigyan Kendra (KVK) for personalized advice!</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <h3>❌ Error</h3>
+                    <p>${data.error}</p>
+                `;
+            }
+            
+            resultDiv.style.display = 'block';
+        }
+
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function showMessage(message, type) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = `result ${type}`;
+            resultDiv.innerHTML = `<p>${message}</p>`;
+            resultDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                resultDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // Test API connection on page load
+        window.addEventListener('load', async function() {
+            console.log('Testing API connection to:', API_BASE_URL);
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                console.log('Health check response:', response.status);
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Health check data:', data);
+                    showMessage('✅ Connected to API server successfully!', 'success');
+                } else {
+                    console.error('API server error:', response.status);
+                    showMessage('⚠️ API server responded but may have issues', 'error');
+                }
+            } catch (error) {
+                console.error('Connection error:', error);
+                showMessage('❌ Cannot connect to API server. Please start the server first.', 'error');
+            }
+        });
+    </script>
+</body>
+</html>

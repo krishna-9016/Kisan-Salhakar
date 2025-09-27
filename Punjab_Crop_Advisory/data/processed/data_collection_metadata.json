@@ -1,0 +1,54 @@
+{
+  "collection_date": "2025-09-01T02:55:23.950858",
+  "total_farm_plots": 50,
+  "geographic_coverage": {
+    "lat_min": 30.008591504015047,
+    "lat_max": 32.02141992126103,
+    "lon_min": 74.62505690158856,
+    "lon_max": 76.8685299346838,
+    "districts": [
+      "Gurdaspur",
+      "Kapurthala",
+      "Jalandhar",
+      "Patiala",
+      "Mohali",
+      "Bathinda",
+      "Amritsar",
+      "Ludhiana"
+    ]
+  },
+  "satellite_data": {
+    "date_range": "2024-06-01 to 2024-08-31",
+    "real_data_percentage": 0.0,
+    "sources": {
+      "Synthetic_Fallback": 50
+    }
+  },
+  "weather_data": {
+    "sources": {
+      "OpenWeatherMap": 50
+    },
+    "temp_range": [
+      22.45,
+      24.37
+    ]
+  },
+  "soil_data": {
+    "sources": {
+      "Punjab_Research_Model_Southern": 24,
+      "Punjab_Research_Model_Central": 16,
+      "Punjab_Research_Model_Northern": 10
+    },
+    "ph_range": [
+      6.802599426081223,
+      8.645241163431669
+    ]
+  },
+  "yield_data": {
+    "crops": [
+      "Wheat",
+      "Rice",
+      "Cotton"
+    ],
+    "years": [
+      

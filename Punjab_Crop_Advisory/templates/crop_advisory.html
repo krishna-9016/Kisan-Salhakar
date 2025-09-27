@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌾 Punjab Crop Advisory - Test Interface</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
+        .main-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 20px auto;
+            max-width: 1200px;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(45deg, #2E7D32, #4CAF50);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content-area {
+            display: flex;
+            min-height: 600px;
+        }
+        .map-section {
+            flex: 1;
+            position: relative;
+        }
+        .controls-section {
+            flex: 1;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+        .form-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .result-card {
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .recommendation-card {
+            background: #e8f5e8;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .tip-item {
+            background: #fff3e0;
+            border-left: 3px solid #ff9800;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 3px;
+        }
+        .btn-predict {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-predict:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+        .status-indicator {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status-connected {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .yield-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
+        @media (max-width: 768px) {
+            .content-area {
+                flex-direction: column;
+            }
+            #map {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <h1>🌾 Punjab Crop Advisory System</h1>
+            <p>AI-Powered Crop Yield Predictions for Punjab Farmers</p>
+            <div id="api-status" class="status-indicator">Checking API...</div>
+        </div>
+        
+        <div class="content-area">
+            <!-- Map Section -->
+            <div class="map-section">
+                <div id="map"></div>
+            </div>
+            
+            <!-- Controls Section -->
+            <div class="controls-section">
+                <div class="form-section">
+                    <h4>📍 Location Selection</h4>
+                    <div class="mb-3">
+                        <label class="form-label">Select District (or click on map)</label>
+                        <select class="form-select" id="district-select">
+                            <option value="">Choose a district...</option>
+                            {% for district, coords in districts.items() %}
+                            <option value="{{ district }}" data-lat="{{ coords[0] }}" data-lng="{{ coords[1] }}">{{ district }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label">Latitude</label>
+                            <input type="number" class="form-control" id="latitude" step="0.0001" readonly>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Longitude</label>
+                            <input type="number" class="form-control" id="longitude" step="0.0001" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>🌾 Crop Information</h4>
+                    <div class="mb-3">
+                        <label class="form-label">Crop Type</label>
+                        <select class="form-select" id="crop-select">
+                            <option value="">Loading crops...</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Farm Size (acres)</label>
+                        <input type="number" class="form-control" id="farm-size" min="0.1" max="10000" step="0.1" placeholder="Enter farm size in acres">
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-predict btn-lg" id="predict-btn" disabled>
+                        🚀 Get AI Prediction
+                    </button>
+                </div>
+
+                <!-- Results Section -->
+                <div id="results-section" style="display: none;">
+                    <!-- Results will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Global variables
+        let map;
+        let currentMarker;
+        let selectedLocation = null;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMap();
+            checkApiStatus();
+            loadCrops();
+            setupEventListeners();
+        });
+
+        // Initialize Leaflet map
+        function initializeMap() {
+            map = L.map('map').setView([31.1471, 75.3412], 8);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Map click handler
+            map.on('click', function(e) {
+                setLocation(e.latlng.lat, e.latlng.lng);
+                document.getElementById('district-select').value = '';
+            });
+        }
+
+        // Set location on map
+        function setLocation(lat, lng) {
+            if (currentMarker) {
+                map.removeLayer(currentMarker);
+            }
+            
+            currentMarker = L.marker([lat, lng]).addTo(map);
+            selectedLocation = {lat: lat, lng: lng};
+            
+            document.getElementById('latitude').value = lat.toFixed(4);
+            document.getElementById('longitude').value = lng.toFixed(4);
+            
+            updatePredictButton();
+        }
+
+        // Check API status
+        async function checkApiStatus() {
+            try {
+                const response = await fetch('/api/health');
+                const result = await response.json();
+                
+                const statusEl = document.getElementById('api-status');
+                if (result.success) {
+                    statusEl.textContent = '✅ API Connected';
+                    statusEl.className = 'status-indicator status-connected';
+                } else {
+                    statusEl.textContent = '❌ API Error';
+                    statusEl.className = 'status-indicator status-error';
+                }
+            } catch (error) {
+                const statusEl = document.getElementById('api-status');
+                statusEl.textContent = '❌ API Offline';
+                statusEl.className = 'status-indicator status-error';
+            }
+        }
+
+        // Load supported crops
+        async function loadCrops() {
+            try {
+                const response = await fetch('/api/crops');
+                const result = await response.json();
+                
+                const cropSelect = document.getElementById('crop-select');
+                if (result.success && result.data.crops) {
+                    cropSelect.innerHTML = '<option value="">Select a crop...</option>';
+                    result.data.crops.forEach(crop => {
+                        const option = document.createElement('option');
+                        option.value = crop;
+                        option.textContent = crop.charAt(0).toUpperCase() + crop.slice(1);
+                        cropSelect.appendChild(option);
+                    });
+                } else {
+                    cropSelect.innerHTML = '<option value="">Failed to load crops</option>';
+                }
+            } catch (error) {
+                console.error('Failed to load crops:', error);
+                document.getElementById('crop-select').innerHTML = '<option value="">Error loading crops</option>';
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // District selection
+            document.getElementById('district-select').addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+                if (selectedOption.value) {
+                    const lat = parseFloat(selectedOption.dataset.lat);
+                    const lng = parseFloat(selectedOption.dataset.lng);
+                    setLocation(lat, lng);
+                    map.setView([lat, lng], 10);
+                }
+            });
+
+            // Form validation
+            ['crop-select', 'farm-size'].forEach(id => {
+                document.getElementById(id).addEventListener('change', updatePredictButton);
+                document.getElementById(id).addEventListener('input', updatePredictButton);
+            });
+
+            // Predict button
+            document.getElementById('predict-btn').addEventListener('click', getPrediction);
+        }
+
+        // Update predict button state
+        function updatePredictButton() {
+            const lat = document.getElementById('latitude').value;
+            const lng = document.getElementById('longitude').value;
+            const crop = document.getElementById('crop-select').value;
+            const farmSize = document.getElementById('farm-size').value;
+            
+            const btn = document.getElementById('predict-btn');
+            if (lat && lng && crop && farmSize) {
+                btn.disabled = false;
+                btn.textContent = '🚀 Get AI Prediction';
+            } else {
+                btn.disabled = true;
+                btn.textContent = '🚀 Get AI Prediction';
+            }
+        }
+
+        // Get prediction from API
+        async function getPrediction() {
+            const btn = document.getElementById('predict-btn');
+            const resultsSection = document.getElementById('results-section');
+            
+            // Show loading state
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Analyzing...';
+            btn.disabled = true;
+            
+            try {
+                const requestData = {
+                    latitude: parseFloat(document.getElementById('latitude').value),
+                    longitude: parseFloat(document.getElementById('longitude').value),
+                    crop: document.getElementById('crop-select').value,
+                    acres: parseFloat(document.getElementById('farm-size').value)
+                };
+
+                const response = await fetch('/api/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayResults(result.data);
+                } else {
+                    displayError(result.error);
+                }
+                
+            } catch (error) {
+                displayError('Failed to get prediction: ' + error.message);
+            } finally {
+                btn.innerHTML = '🚀 Get AI Prediction';
+                updatePredictButton();
+            }
+        }
+
+        // Display prediction results
+        function displayResults(data) {
+            const resultsSection = document.getElementById('results-section');
+            
+            let html = `
+                <div class="result-card">
+                    <h4>📊 Prediction Results</h4>
+                    <div class="yield-display">${data.predicted_yield} kg/acre</div>
+                    <div class="text-center mb-3">
+                        <span class="badge bg-light text-dark">Range: ${data.yield_range.minimum} - ${data.yield_range.maximum} kg/acre</span>
+                        <span class="badge bg-success ms-2">${data.confidence} Confidence</span>
+                    </div>
+                </div>
+            `;
+
+            // Crop recommendations
+            if (data.crop_recommendations && data.crop_recommendations.length > 0) {
+                html += '<h5 class="mt-4">🌱 Alternative Crop Recommendations</h5>';
+                data.crop_recommendations.slice(0, 3).forEach(rec => {
+                    html += `
+                        <div class="recommendation-card">
+                            <strong>${rec.crop_name}</strong> - ${rec.profitability} Profitability<br>
+                            <small>Expected: ${rec.expected_yield} kg/acre</small><br>
+                            <small class="text-muted">${rec.reasons[0] || ''}</small>
+                        </div>
+                    `;
+                });
+            }
+
+            // Farming tips
+            if (data.farming_tips && data.farming_tips.length > 0) {
+                html += '<h5 class="mt-4">💡 Farming Tips</h5>';
+                data.farming_tips.slice(0, 4).forEach(tip => {
+                    html += `<div class="tip-item">${tip}</div>`;
+                });
+            }
+
+            // Seasonal advice
+            if (data.seasonal_advice) {
+                html += `
+                    <div class="form-section mt-4">
+                        <h5>🗓️ Seasonal Advice</h5>
+                        <p>${data.seasonal_advice}</p>
+                    </div>
+                `;
+            }
+
+            resultsSection.innerHTML = html;
+            resultsSection.style.display = 'block';
+            
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Display error message
+        function displayError(error) {
+            const resultsSection = document.getElementById('results-section');
+            resultsSection.innerHTML = `
+                <div class="alert alert-danger">
+                    <h5>❌ Error</h5>
+                    <p>${error}</p>
+                    <small>Make sure the Crop Advisory API is running on port 9090</small>
+                </div>
+            `;
+            resultsSection.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{
+  "creation_date": "2025-09-01T03:04:53.748883",
+  "total_records": 450,
+  "total_features": 43,
+  "feature_categories": {
+    "satellite_features": 6,
+    "soil_features": 7,
+    "weather_features": 4,
+    "temporal_features": 4,
+    "engineered_features": 8
+  },
+  "target_variable": "yield_kg_per_hectare",
+  "crops_analyzed": [
+    "Wheat",
+    "Rice",
+    "Cotton"
+  ],
+  "districts_covered": [
+    "Gurdaspur",
+    "Kapurthala",
+    "Jalandhar",
+    "Patiala",
+    "Mohali",
+    "Bathinda",
+    "Amritsar",
+    "Ludhiana"
+  ],
+  "years_covered": [
+    2022,
+    2023,
+    2024
+  ]
+}

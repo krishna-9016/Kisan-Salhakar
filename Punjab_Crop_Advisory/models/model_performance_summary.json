@@ -1,0 +1,112 @@
+{
+  "final_model": "Random Forest",
+  "performance_metrics": {
+    "train_r2": 0.9868481572354474,
+    "test_r2": 0.9610814691862252,
+    "train_mae": 159.94612463969668,
+    "test_mae": 269.83061306838215,
+    "train_rmse": 246.42301484911866,
+    "test_rmse": 411.050978522526
+  },
+  "all_models_results": [
+    {
+      "model_name": "Random Forest",
+      "train_mae": "159.94612463969668",
+      "test_mae": "269.83061306838226",
+      "train_rmse": "246.42301484911863",
+      "test_rmse": "411.05097852252607",
+      "train_r2": "0.9868481572354474",
+      "test_r2": "0.9610814691862252",
+      "cv_r2_mean": "0.9546108806937893",
+      "cv_r2_std": "0.009464136704762165"
+    },
+    {
+      "model_name": "Extra Trees",
+      "train_mae": "119.12372408820929",
+      "test_mae": "296.8557595098045",
+      "train_rmse": "184.19977616649766",
+      "test_rmse": "440.9271297985601",
+      "train_r2": "0.9926514395502377",
+      "test_r2": "0.9552184927351777",
+      "cv_r2_mean": "0.9416338935548204",
+      "cv_r2_std": "0.010959988188805374"
+    },
+    {
+      "model_name": "LightGBM",
+      "train_mae": "163.24985475811604",
+      "test_mae": "298.7899210943775",
+      "train_rmse": "240.51527524797118",
+      "test_rmse": "441.3167040953948",
+      "train_r2": "0.9874712021357337",
+      "test_r2": "0.9551393257709639",
+      "cv_r2_mean": "0.9506432014913637",
+      "cv_r2_std": "0.011253971973958138"
+    },
+    {
+      "model_name": "Gradient Boosting",
+      "train_mae": "6.713298424060344",
+      "test_mae": "305.75953533986154",
+      "train_rmse": "9.346630959962349",
+      "test_rmse": "455.20116938741194",
+      "train_r2": "0.9999810794278245",
+      "test_r2": "0.9522721575401739",
+      "cv_r2_mean": "0.9388625379527197",
+      "cv_r2_std": "0.011359563224175034"
+    },
+    {
+      "model_name": "XGBoost",
+      "train_mae": "23.036400994194892",
+      "test_mae": "330.6888884819878",
+      "train_rmse": "34.491169955517755",
+      "test_rmse": "477.14391148671433",
+      "train_r2": "0.9997423441977378",
+      "test_r2": "0.9475598606254275",
+      "cv_r2_mean": "0.9377061433378449",
+      "cv_r2_std": "0.01188964729716659"
+    },
+    {
+      "model_name": "Ridge Regression",
+      "train_mae": "404.22035155751007",
+      "test_mae": "406.6456054804332",
+      "train_rmse": "506.68928876568987",
+      "test_rmse": "495.2130406577598",
+      "train_r2": "0.9443958095808463",
+      "test_r2": "0.9435129090240583",
+      "cv_r2_mean": "0.9327816134123271",
+      "cv_r2_std": "0.008124864664909812"
+    },
+    {
+      "model_name": "Linear Regression",
+      "train_mae": "404.47265503141284",
+      "test_mae": "408.2675958662912",
+      "train_rmse": "506.5813213230848",
+      "test_rmse": "496.200030808532",
+      "train_r2": "0.9444195037964206",
+      "test_r2": "0.9432875201241419",
+      "cv_r2_mean": "0.9321357662769231",
+      "cv_r2_std": "0.008496537242601647"
+    }
+  ],
+  "training_summary": {
+    "training_date": "2025-09-01T03:18:18.649033",
+    "training_samples": 360,
+    "test_samples": 90,
+    "features_count": 39,
+    "target_variable": "yield_kg_per_hectare",
+    "crops_trained": [
+      "Wheat",
+      "Rice",
+      "Cotton"
+    ],
+    "districts_covered": [
+      "Gurdaspur",
+      "Kapurthala",
+      "Jalandhar",
+      "Patiala",
+      "Mohali",
+      "Bathinda",
+      "Amritsar",
+      "Ludhiana"
+    ]
+  }
+}

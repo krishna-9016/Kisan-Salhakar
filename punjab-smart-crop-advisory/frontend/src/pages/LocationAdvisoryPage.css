@@ -1,0 +1,139 @@
+/* General Page Layout */
+.location-advisory-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f7f9fc;
+  overflow: hidden; /* Prevent the whole page from scrolling */
+}
+
+.location-advisory-header {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 32px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e7eaf3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.location-advisory-main-content {
+  flex-grow: 1;
+  display: flex;
+  padding: 24px;
+  gap: 24px;
+  overflow: hidden; /* Key to containing the panels */
+}
+
+/* Map and Advisory Panels */
+.map-panel {
+  flex: 1.5; /* Give map more space */
+  min-width: 0; /* Prevent flex item from overflowing */
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+}
+
+.advisory-panel {
+  flex: 1; /* Advisory panel takes up the remaining space */
+  display: flex;
+  flex-direction: column;
+  min-width: 400px; /* Prevent it from getting too squished */
+}
+
+.full-height-map {
+  height: 100%;
+  width: 100%;
+}
+
+/* Styling for the content inside the Advisory Panel */
+.advisory-panel .MuiPaper-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 24px;
+  border-radius: 16px;
+}
+
+/* This is the container for the results that needs to scroll */
+.prediction-results-container {
+  flex-grow: 1; /* Allow this to take up all remaining vertical space */
+  overflow-y: auto; /* Enable vertical scrolling */
+  margin-top: 20px;
+  padding-right: 12px; /* Space for the scrollbar */
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Initial state before results are shown */
+.initial-state-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Loading spinner styling */
+.loading-container {
+  padding: 40px;
+  text-align: center;
+}
+
+/* Individual result cards */
+.prediction-results-container .MuiCard-root {
+  background-color: #ffffff;
+  border: 1px solid #e7eaf3;
+  border-radius: 12px;
+  box-shadow: none;
+  margin-bottom: 16px;
+}
+
+.prediction-results-container .MuiCardContent-root:last-child {
+  padding-bottom: 16px; /* MUI adds extra padding, this resets it */
+}
+
+.yield-prediction-value {
+  font-weight: 700;
+  color: #2e7d32;
+  margin: 8px 0;
+}
+
+.recommendation-box {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.recommendation-box:last-child {
+  margin-bottom: 0;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .location-advisory-main-content {
+    flex-direction: column;
+    overflow-y: auto; /* Allow the main content to scroll on smaller screens */
+  }
+  .map-panel {
+    flex: none; /* Reset flex sizing */
+    height: 400px; /* Give map a fixed height */
+  }
+  .advisory-panel {
+    flex: none;
+    min-width: unset;
+  }
+}
+
+@media (max-width: 600px) {
+  .location-advisory-header { padding: 16px; }
+  .location-advisory-main-content { padding: 16px; gap: 16px; }
+}

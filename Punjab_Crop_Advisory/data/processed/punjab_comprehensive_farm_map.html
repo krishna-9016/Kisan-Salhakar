@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_27201d2afe0bef43ff44dbc6cfa446ba {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+    <div style="position: fixed; 
+                bottom: 50px; left: 50px; width: 200px; height: 140px; 
+                background-color: white; border:2px solid grey; z-index:9999; 
+                font-size:12px; padding: 10px; box-shadow: 3px 3px 10px rgba(0,0,0,0.3);">
+    <h4>🌾 Punjab Smart Crop Advisory</h4>
+    <p><b>Crop Health (NDVI):</b></p>
+    <p><span style="color:green;">●</span> Healthy (>0.7)</p>
+    <p><span style="color:orange;">●</span> Moderate (0.5-0.7)</p>
+    <p><span style="color:red;">●</span> Stressed (<0.5)</p>
+    <p><span style="color:gray;">●</span> No Data</p>
+    <small>📅 Data: 2025-09-01</small>
+    </div>
+    
+    
+            <div class="folium-map" id="map_27201d2afe0bef43ff44dbc6cfa446ba" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_27201d2afe0bef43ff44dbc6cfa446ba = L.map(
+                "map_27201d2afe0bef43ff44dbc6cfa446ba",
+                {
+                    center: [30.9, 75.8],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 8,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_5fd4ec3c517e264d428704bbb9fae688 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_5fd4ec3c517e264d428704bbb9fae688.addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+            var circle_marker_7a8a46cc8538c553736714b5b9da471a = L.circleMarker(
+                [31.961464826625406, 75.48431496086756],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_089f303073b43721122f9f2cb6283882 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_7ade1522c796f0178e0705717e5f3562 = $(`<div id="html_7ade1522c796f0178e0705717e5f3562" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_001</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.9615°N, 75.4843°E<br>             • District: Gurdaspur<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Medium<br>             • pH: 7.4<br>             • Organic Carbon: 0.68%<br>             • N Available: 170 kg/ha<br>             • Data Source: Punjab_Research_Model_Northern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.5°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_089f303073b43721122f9f2cb6283882.setContent(html_7ade1522c796f0178e0705717e5f3562);
+            
+        
+
+        circle_marker_7a8a46cc8538c553736714b5b9da471a.bindPopup(popup_089f303073b43721122f9f2cb6283882)
+        ;
+
+        
+    
+    
+            var circle_marker_9b1cd1c72eea4221e0f1aff29ec9f374 = L.circleMarker(
+                [31.21121798229296, 75.42883532770341],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_5796df07d9cd269df162fa6c84aa0821 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_d4bfac02e0e317d3b11ed8db327148ac = $(`<div id="html_d4bfac02e0e317d3b11ed8db327148ac" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_002</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.2112°N, 75.4288°E<br>             • District: Kapurthala<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.0<br>             • Organic Carbon: 0.69%<br>             • N Available: 138 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.3°C<br>             • Humidity: 97%<br>             • Rainfall: 1.8mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_5796df07d9cd269df162fa6c84aa0821.setContent(html_d4bfac02e0e317d3b11ed8db327148ac);
+            
+        
+
+        circle_marker_9b1cd1c72eea4221e0f1aff29ec9f374.bindPopup(popup_5796df07d9cd269df162fa6c84aa0821)
+        ;
+
+        
+    
+    
+            var circle_marker_b649ca02bf46dd762b21ee75ccb3d894 = L.circleMarker(
+                [31.311806849715303, 75.4366757849949],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_334683024cb3d818fc20b2ee3d8459eb = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_734569f2c9eb0401a76b41abf80e05a8 = $(`<div id="html_734569f2c9eb0401a76b41abf80e05a8" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_003</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.3118°N, 75.4367°E<br>             • District: Jalandhar<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.4<br>             • Organic Carbon: 0.82%<br>             • N Available: 155 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.0°C<br>             • Humidity: 97%<br>             • Rainfall: 0.5mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_334683024cb3d818fc20b2ee3d8459eb.setContent(html_734569f2c9eb0401a76b41abf80e05a8);
+            
+        
+
+        circle_marker_b649ca02bf46dd762b21ee75ccb3d894.bindPopup(popup_334683024cb3d818fc20b2ee3d8459eb)
+        ;
+
+        
+    
+    
+            var circle_marker_9d817e739d142876e4fe5430277932fd = L.circleMarker(
+                [30.57788192232611, 76.49911520937293],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_2bc841b8870b3c4168d95c5928804bf9 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e6118021cff60f165a911cc9afdbbe62 = $(`<div id="html_e6118021cff60f165a911cc9afdbbe62" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_004</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.5779°N, 76.4991°E<br>             • District: Patiala<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.4<br>             • Organic Carbon: 0.37%<br>             • N Available: 127 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.2°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_2bc841b8870b3c4168d95c5928804bf9.setContent(html_e6118021cff60f165a911cc9afdbbe62);
+            
+        
+
+        circle_marker_9d817e739d142876e4fe5430277932fd.bindPopup(popup_2bc841b8870b3c4168d95c5928804bf9)
+        ;
+
+        
+    
+    
+            var circle_marker_7ac5d217ee0d67e45b44c26070934fc8 = L.circleMarker(
+                [30.715974771832357, 76.69407252475145],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_71f5ab00b6d405b6811f29595cd8f54a = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e2c8e507d3da8330324f13ed08616c2c = $(`<div id="html_e2c8e507d3da8330324f13ed08616c2c" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_005</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.7160°N, 76.6941°E<br>             • District: Mohali<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.2<br>             • Organic Carbon: 0.57%<br>             • N Available: 108 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.2°C<br>             • Humidity: 94%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_71f5ab00b6d405b6811f29595cd8f54a.setContent(html_e2c8e507d3da8330324f13ed08616c2c);
+            
+        
+
+        circle_marker_7ac5d217ee0d67e45b44c26070934fc8.bindPopup(popup_71f5ab00b6d405b6811f29595cd8f54a)
+        ;
+
+        
+    
+    
+            var circle_marker_d15c85ac6c781d6269e30ead496f05b2 = L.circleMarker(
+                [30.616868279896472, 76.63922452892328],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_9de7a2c90350c2b8065a5fd2076a1f5f = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_1789fbd43925a0ea2dcb049d65c8e0cf = $(`<div id="html_1789fbd43925a0ea2dcb049d65c8e0cf" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_006</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.6169°N, 76.6392°E<br>             • District: Mohali<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.1<br>             • Organic Carbon: 0.37%<br>             • N Available: 49 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.2°C<br>             • Humidity: 95%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_9de7a2c90350c2b8065a5fd2076a1f5f.setContent(html_1789fbd43925a0ea2dcb049d65c8e0cf);
+            
+        
+
+        circle_marker_d15c85ac6c781d6269e30ead496f05b2.bindPopup(popup_9de7a2c90350c2b8065a5fd2076a1f5f)
+        ;
+
+        
+    
+    
+            var circle_marker_a7aed1af4b78213e7cb1b5c2544f837e = L.circleMarker(
+                [30.560356718051903, 76.61480724514219],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_0d3229da389d73d61ff491b1ad654ec4 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_ab1eec405faa6f7113b36aaa0f88f413 = $(`<div id="html_ab1eec405faa6f7113b36aaa0f88f413" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_007</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.5604°N, 76.6148°E<br>             • District: Patiala<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 7.9<br>             • Organic Carbon: 0.57%<br>             • N Available: 107 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.2°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_0d3229da389d73d61ff491b1ad654ec4.setContent(html_ab1eec405faa6f7113b36aaa0f88f413);
+            
+        
+
+        circle_marker_a7aed1af4b78213e7cb1b5c2544f837e.bindPopup(popup_0d3229da389d73d61ff491b1ad654ec4)
+        ;
+
+        
+    
+    
+            var circle_marker_c5ce645340b48dace258c758530009f1 = L.circleMarker(
+                [30.082262325123047, 76.29965687061386],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_f7e44f6ef238ac43aed2f32bcbe2d704 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_5e893461a32c73f3f49b314a6af73b03 = $(`<div id="html_5e893461a32c73f3f49b314a6af73b03" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_008</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.0823°N, 76.2997°E<br>             • District: Patiala<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 7.7<br>             • Organic Carbon: 0.76%<br>             • N Available: 162 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.3°C<br>             • Humidity: 95%<br>             • Rainfall: 1.1mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_f7e44f6ef238ac43aed2f32bcbe2d704.setContent(html_5e893461a32c73f3f49b314a6af73b03);
+            
+        
+
+        circle_marker_c5ce645340b48dace258c758530009f1.bindPopup(popup_f7e44f6ef238ac43aed2f32bcbe2d704)
+        ;
+
+        
+    
+    
+            var circle_marker_6195a4206fbee6c4dc172b7012a08c0a = L.circleMarker(
+                [31.246227388467265, 75.55837867473429],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_1653dec0a18b69d7f80aca546606998c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_4c730a4d5babe60281aa0035f17b5055 = $(`<div id="html_4c730a4d5babe60281aa0035f17b5055" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_009</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.2462°N, 75.5584°E<br>             • District: Jalandhar<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.2<br>             • Organic Carbon: 0.59%<br>             • N Available: 137 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.1°C<br>             • Humidity: 97%<br>             • Rainfall: 2.4mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_1653dec0a18b69d7f80aca546606998c.setContent(html_4c730a4d5babe60281aa0035f17b5055);
+            
+        
+
+        circle_marker_6195a4206fbee6c4dc172b7012a08c0a.bindPopup(popup_1653dec0a18b69d7f80aca546606998c)
+        ;
+
+        
+    
+    
+            var circle_marker_03a53ebee69ed476df90bb9703f579b2 = L.circleMarker(
+                [30.105498429743886, 74.62505690158856],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_eb9d3d512e51b973b218d8b686498fed = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_8c108f8d23bf29504ff4a4cd8a806a34 = $(`<div id="html_8c108f8d23bf29504ff4a4cd8a806a34" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_010</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.1055°N, 74.6251°E<br>             • District: Bathinda<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 7.8<br>             • Organic Carbon: 0.29%<br>             • N Available: 83 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 24.4°C<br>             • Humidity: 94%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_eb9d3d512e51b973b218d8b686498fed.setContent(html_8c108f8d23bf29504ff4a4cd8a806a34);
+            
+        
+
+        circle_marker_03a53ebee69ed476df90bb9703f579b2.bindPopup(popup_eb9d3d512e51b973b218d8b686498fed)
+        ;
+
+        
+    
+    
+            var circle_marker_17f133747e09c800e4023812aec2d107 = L.circleMarker(
+                [31.822550546026807, 75.63004714370707],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_b9b15017b5340e23edd53e80bac9990a = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_7be86244b31d5ec71b85cb0406ca341f = $(`<div id="html_7be86244b31d5ec71b85cb0406ca341f" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_011</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.8226°N, 75.6300°E<br>             • District: Gurdaspur<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Medium<br>             • pH: 7.5<br>             • Organic Carbon: 0.79%<br>             • N Available: 127 kg/ha<br>             • Data Source: Punjab_Research_Model_Northern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.6°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_b9b15017b5340e23edd53e80bac9990a.setContent(html_7be86244b31d5ec71b85cb0406ca341f);
+            
+        
+
+        circle_marker_17f133747e09c800e4023812aec2d107.bindPopup(popup_b9b15017b5340e23edd53e80bac9990a)
+        ;
+
+        
+    
+    
+            var circle_marker_92127d650037c379b001aef1138d70dd = L.circleMarker(
+                [30.129342591321222, 74.96263838845648],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_e66add5dda51ca8c1e268126bb2146c4 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_a2b8ef18dd5e9e755c23fdce41151fd6 = $(`<div id="html_a2b8ef18dd5e9e755c23fdce41151fd6" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_012</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.1293°N, 74.9626°E<br>             • District: Bathinda<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 7.9<br>             • Organic Carbon: 0.29%<br>             • N Available: 139 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.8°C<br>             • Humidity: 97%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_e66add5dda51ca8c1e268126bb2146c4.setContent(html_a2b8ef18dd5e9e755c23fdce41151fd6);
+            
+        
+
+        circle_marker_92127d650037c379b001aef1138d70dd.bindPopup(popup_e66add5dda51ca8c1e268126bb2146c4)
+        ;
+
+        
+    
+    
+            var circle_marker_8e8cbcd69eb853226a09df359e44eb1c = L.circleMarker(
+                [31.2472315723305, 75.86291569070387],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_7e02b3b03bf1478b072a024c101a8204 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_29f631b44cd63a1f8eae1f9ca58ab7ad = $(`<div id="html_29f631b44cd63a1f8eae1f9ca58ab7ad" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_013</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.2472°N, 75.8629°E<br>             • District: Jalandhar<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.5<br>             • Organic Carbon: 0.58%<br>             • N Available: 171 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.0°C<br>             • Humidity: 97%<br>             • Rainfall: 2.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_7e02b3b03bf1478b072a024c101a8204.setContent(html_29f631b44cd63a1f8eae1f9ca58ab7ad);
+            
+        
+
+        circle_marker_8e8cbcd69eb853226a09df359e44eb1c.bindPopup(popup_7e02b3b03bf1478b072a024c101a8204)
+        ;
+
+        
+    
+    
+            var circle_marker_29adc81eb9c91b8f2eda6491c99ca49c = L.circleMarker(
+                [31.543961922484115, 75.01411597315699],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_94e401cfc3612dc3c47941bff5118726 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_560805a0954814b4b5b4658f7e2cf01f = $(`<div id="html_560805a0954814b4b5b4658f7e2cf01f" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_014</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.5440°N, 75.0141°E<br>             • District: Amritsar<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Medium<br>             • pH: 7.5<br>             • Organic Carbon: 0.51%<br>             • N Available: 125 kg/ha<br>             • Data Source: Punjab_Research_Model_Northern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.6°C<br>             • Humidity: 97%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_94e401cfc3612dc3c47941bff5118726.setContent(html_560805a0954814b4b5b4658f7e2cf01f);
+            
+        
+
+        circle_marker_29adc81eb9c91b8f2eda6491c99ca49c.bindPopup(popup_94e401cfc3612dc3c47941bff5118726)
+        ;
+
+        
+    
+    
+            var circle_marker_3aba61a1fd6aeeccd5287e35f8e14fc9 = L.circleMarker(
+                [30.228638521483497, 76.26724269893637],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_90ce8b5e2ffaf2378ea201ce6ce082ed = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_8529337d4c1d0c47d2e15b7ca4ac0eda = $(`<div id="html_8529337d4c1d0c47d2e15b7ca4ac0eda" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_015</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.2286°N, 76.2672°E<br>             • District: Patiala<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.1<br>             • Organic Carbon: 0.70%<br>             • N Available: 148 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.1°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_90ce8b5e2ffaf2378ea201ce6ce082ed.setContent(html_8529337d4c1d0c47d2e15b7ca4ac0eda);
+            
+        
+
+        circle_marker_3aba61a1fd6aeeccd5287e35f8e14fc9.bindPopup(popup_90ce8b5e2ffaf2378ea201ce6ce082ed)
+        ;
+
+        
+    
+    
+            var circle_marker_d7d4ec24c7d3c3cd3f69b82bc6597117 = L.circleMarker(
+                [30.20897541628931, 74.7873433606566],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_5408b98fe3cbe8eed4093e6ffb07066e = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_a6b0677317d302e48bfd09649a29d12f = $(`<div id="html_a6b0677317d302e48bfd09649a29d12f" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_016</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.2090°N, 74.7873°E<br>             • District: Bathinda<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 7.9<br>             • Organic Carbon: 0.30%<br>             • N Available: 114 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.9°C<br>             • Humidity: 97%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_5408b98fe3cbe8eed4093e6ffb07066e.setContent(html_a6b0677317d302e48bfd09649a29d12f);
+            
+        
+
+        circle_marker_d7d4ec24c7d3c3cd3f69b82bc6597117.bindPopup(popup_5408b98fe3cbe8eed4093e6ffb07066e)
+        ;
+
+        
+    
+    
+            var circle_marker_ccdfc695b26f1e2b080f0899b0574040 = L.circleMarker(
+                [31.986029057415312, 75.23318446371124],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_a2e94deca04c25e4fb52b28abdfac7ba = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_c5498b1bad6479a4e923fbf29b47f5e8 = $(`<div id="html_c5498b1bad6479a4e923fbf29b47f5e8" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_017</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.9860°N, 75.2332°E<br>             • District: Gurdaspur<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Medium<br>             • pH: 7.4<br>             • Organic Carbon: 0.53%<br>             • N Available: 149 kg/ha<br>             • Data Source: Punjab_Research_Model_Northern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.7°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_a2e94deca04c25e4fb52b28abdfac7ba.setContent(html_c5498b1bad6479a4e923fbf29b47f5e8);
+            
+        
+
+        circle_marker_ccdfc695b26f1e2b080f0899b0574040.bindPopup(popup_a2e94deca04c25e4fb52b28abdfac7ba)
+        ;
+
+        
+    
+    
+            var circle_marker_8fa921598720a3739ac494b477d0cf0c = L.circleMarker(
+                [31.444232132911605, 75.03579883965365],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_28b292e48843cc6092b00fb45d27f94a = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_8784e58d222682b001213373d95e2ea7 = $(`<div id="html_8784e58d222682b001213373d95e2ea7" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_018</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.4442°N, 75.0358°E<br>             • District: Amritsar<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.3<br>             • Organic Carbon: 0.75%<br>             • N Available: 149 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.8°C<br>             • Humidity: 98%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_28b292e48843cc6092b00fb45d27f94a.setContent(html_8784e58d222682b001213373d95e2ea7);
+            
+        
+
+        circle_marker_8fa921598720a3739ac494b477d0cf0c.bindPopup(popup_28b292e48843cc6092b00fb45d27f94a)
+        ;
+
+        
+    
+    
+            var circle_marker_1d7b3777f37ca67a2a8e9307d5b412f5 = L.circleMarker(
+                [30.752449969591744, 76.5089874588691],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_6c77279badeb7fd36a46cd021dc5eb80 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_08f206043bd416b4320c6c9655230ca7 = $(`<div id="html_08f206043bd416b4320c6c9655230ca7" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_019</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.7524°N, 76.5090°E<br>             • District: Mohali<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.1<br>             • Organic Carbon: 0.66%<br>             • N Available: 116 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.1°C<br>             • Humidity: 97%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_6c77279badeb7fd36a46cd021dc5eb80.setContent(html_08f206043bd416b4320c6c9655230ca7);
+            
+        
+
+        circle_marker_1d7b3777f37ca67a2a8e9307d5b412f5.bindPopup(popup_6c77279badeb7fd36a46cd021dc5eb80)
+        ;
+
+        
+    
+    
+            var circle_marker_d0c3a01b31963819c1591d5554897c28 = L.circleMarker(
+                [30.451769986999313, 76.40970524217849],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_c6b1fde889b54a2cf2a299c689b81c22 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_3f6c8f3b9f5422a9915b00984dce2aff = $(`<div id="html_3f6c8f3b9f5422a9915b00984dce2aff" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_020</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.4518°N, 76.4097°E<br>             • District: Patiala<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.4<br>             • Organic Carbon: 0.61%<br>             • N Available: 94 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.2°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_c6b1fde889b54a2cf2a299c689b81c22.setContent(html_3f6c8f3b9f5422a9915b00984dce2aff);
+            
+        
+
+        circle_marker_d0c3a01b31963819c1591d5554897c28.bindPopup(popup_c6b1fde889b54a2cf2a299c689b81c22)
+        ;
+
+        
+    
+    
+            var circle_marker_939bcfe12e9901c4f807a70c89ae2bde = L.circleMarker(
+                [31.495829818674736, 75.7794015136908],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_9fdbc3bb0b959dbd8ff4a34eb2c6a328 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_c1d9b9aa96753ca76dfb2349d5c5ac67 = $(`<div id="html_c1d9b9aa96753ca76dfb2349d5c5ac67" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_021</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.4958°N, 75.7794°E<br>             • District: Kapurthala<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.9<br>             • Organic Carbon: 0.64%<br>             • N Available: 147 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.5°C<br>             • Humidity: 94%<br>             • Rainfall: 3.2mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_9fdbc3bb0b959dbd8ff4a34eb2c6a328.setContent(html_c1d9b9aa96753ca76dfb2349d5c5ac67);
+            
+        
+
+        circle_marker_939bcfe12e9901c4f807a70c89ae2bde.bindPopup(popup_9fdbc3bb0b959dbd8ff4a34eb2c6a328)
+        ;
+
+        
+    
+    
+            var circle_marker_d1d16a464010b293bda298f41fa86c35 = L.circleMarker(
+                [30.552637198570235, 76.48050586796947],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_2656150d1cfe07b0234adfc204164f43 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_82948a73c34dac126052ce6d64df8c13 = $(`<div id="html_82948a73c34dac126052ce6d64df8c13" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_022</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.5526°N, 76.4805°E<br>             • District: Mohali<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.0<br>             • Organic Carbon: 0.21%<br>             • N Available: 112 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.2°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_2656150d1cfe07b0234adfc204164f43.setContent(html_82948a73c34dac126052ce6d64df8c13);
+            
+        
+
+        circle_marker_d1d16a464010b293bda298f41fa86c35.bindPopup(popup_2656150d1cfe07b0234adfc204164f43)
+        ;
+
+        
+    
+    
+            var circle_marker_82e246eaf34ca3a34ddd8ee436c0f541 = L.circleMarker(
+                [31.985111950115456, 75.0326477780526],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_ebe234dd990a506aff177ae4fa26c8f8 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e3cb7686872d1157f99238209040e052 = $(`<div id="html_e3cb7686872d1157f99238209040e052" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_023</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.9851°N, 75.0326°E<br>             • District: Amritsar<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Medium<br>             • pH: 7.7<br>             • Organic Carbon: 0.37%<br>             • N Available: 187 kg/ha<br>             • Data Source: Punjab_Research_Model_Northern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.7°C<br>             • Humidity: 95%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_ebe234dd990a506aff177ae4fa26c8f8.setContent(html_e3cb7686872d1157f99238209040e052);
+            
+        
+
+        circle_marker_82e246eaf34ca3a34ddd8ee436c0f541.bindPopup(popup_ebe234dd990a506aff177ae4fa26c8f8)
+        ;
+
+        
+    
+    
+            var circle_marker_576016f2a0ce72b50e65e7b203831a6f = L.circleMarker(
+                [30.95254274343527, 75.5925439766956],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_dec25359fc353ae4ee9b3136d0804751 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_5bb9bfcaa9ab466dfff1cd8548d06118 = $(`<div id="html_5bb9bfcaa9ab466dfff1cd8548d06118" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_024</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.9525°N, 75.5925°E<br>             • District: Ludhiana<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.0<br>             • Organic Carbon: 0.64%<br>             • N Available: 202 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.3°C<br>             • Humidity: 97%<br>             • Rainfall: 1.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_dec25359fc353ae4ee9b3136d0804751.setContent(html_5bb9bfcaa9ab466dfff1cd8548d06118);
+            
+        
+
+        circle_marker_576016f2a0ce72b50e65e7b203831a6f.bindPopup(popup_dec25359fc353ae4ee9b3136d0804751)
+        ;
+
+        
+    
+    
+            var circle_marker_92ff5c1592dde3bf6e716259f8d3dd82 = L.circleMarker(
+                [30.774487011496106, 75.78000118919043],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_88b2f7a4796a4e4f6f2faf10e8eaaa36 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_a7924cf9d0f6eda6a04caecc92e2225f = $(`<div id="html_a7924cf9d0f6eda6a04caecc92e2225f" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_025</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.7745°N, 75.7800°E<br>             • District: Ludhiana<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.6<br>             • Organic Carbon: 0.36%<br>             • N Available: 92 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.1°C<br>             • Humidity: 98%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_88b2f7a4796a4e4f6f2faf10e8eaaa36.setContent(html_a7924cf9d0f6eda6a04caecc92e2225f);
+            
+        
+
+        circle_marker_92ff5c1592dde3bf6e716259f8d3dd82.bindPopup(popup_88b2f7a4796a4e4f6f2faf10e8eaaa36)
+        ;
+
+        
+    
+    
+            var circle_marker_64d27022c16a787a177882566f80d4f4 = L.circleMarker(
+                [30.988318419206955, 75.990162268939],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_2a962fcb741efdfeea94e3b311e147ef = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_a04f3babd4af62bfdcbc046a9c9e1d21 = $(`<div id="html_a04f3babd4af62bfdcbc046a9c9e1d21" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_026</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.9883°N, 75.9902°E<br>             • District: Ludhiana<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.3<br>             • Organic Carbon: 0.58%<br>             • N Available: 131 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.0°C<br>             • Humidity: 98%<br>             • Rainfall: 0.3mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_2a962fcb741efdfeea94e3b311e147ef.setContent(html_a04f3babd4af62bfdcbc046a9c9e1d21);
+            
+        
+
+        circle_marker_64d27022c16a787a177882566f80d4f4.bindPopup(popup_2a962fcb741efdfeea94e3b311e147ef)
+        ;
+
+        
+    
+    
+            var circle_marker_19e6736a6ffb1d75510d56aa16afbff7 = L.circleMarker(
+                [31.397406388114046, 75.77154919025978],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_b3fb63d8cb21f0c178ba39b984586540 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_acfef080e6fc500161083591853cf515 = $(`<div id="html_acfef080e6fc500161083591853cf515" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_027</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.3974°N, 75.7715°E<br>             • District: Jalandhar<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.6<br>             • Organic Carbon: 1.07%<br>             • N Available: 207 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.7°C<br>             • Humidity: 95%<br>             • Rainfall: 3.6mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_b3fb63d8cb21f0c178ba39b984586540.setContent(html_acfef080e6fc500161083591853cf515);
+            
+        
+
+        circle_marker_19e6736a6ffb1d75510d56aa16afbff7.bindPopup(popup_b3fb63d8cb21f0c178ba39b984586540)
+        ;
+
+        
+    
+    
+            var circle_marker_88adf8350f091d3856a23e58fedc5cb1 = L.circleMarker(
+                [31.508117371516605, 74.82561814362232],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_bcdb29590560ad2b080bd4fff4e3ef5d = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_cdfb2dc91190cd94670c557923a8f927 = $(`<div id="html_cdfb2dc91190cd94670c557923a8f927" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_028</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.5081°N, 74.8256°E<br>             • District: Amritsar<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Medium<br>             • pH: 8.1<br>             • Organic Carbon: 0.70%<br>             • N Available: 136 kg/ha<br>             • Data Source: Punjab_Research_Model_Northern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.0°C<br>             • Humidity: 97%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_bcdb29590560ad2b080bd4fff4e3ef5d.setContent(html_cdfb2dc91190cd94670c557923a8f927);
+            
+        
+
+        circle_marker_88adf8350f091d3856a23e58fedc5cb1.bindPopup(popup_bcdb29590560ad2b080bd4fff4e3ef5d)
+        ;
+
+        
+    
+    
+            var circle_marker_d5803a9a12e2df5e0f19c1e87c8349cb = L.circleMarker(
+                [32.01876923678513, 75.58171529682568],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_db0731d9641d905df58abdd0b3122bd3 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_cc1da74f1308b25d1c9e35df47d29d2e = $(`<div id="html_cc1da74f1308b25d1c9e35df47d29d2e" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_029</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 32.0188°N, 75.5817°E<br>             • District: Gurdaspur<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Medium<br>             • pH: 7.6<br>             • Organic Carbon: 0.58%<br>             • N Available: 160 kg/ha<br>             • Data Source: Punjab_Research_Model_Northern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.7°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_db0731d9641d905df58abdd0b3122bd3.setContent(html_cc1da74f1308b25d1c9e35df47d29d2e);
+            
+        
+
+        circle_marker_d5803a9a12e2df5e0f19c1e87c8349cb.bindPopup(popup_db0731d9641d905df58abdd0b3122bd3)
+        ;
+
+        
+    
+    
+            var circle_marker_de2717737f398a8afe00adf5c3b1bf7b = L.circleMarker(
+                [30.8743401818094, 75.79544250369706],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_34947e6bfe2cc4ab46c13a1066cbe0c5 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_af75e284803aa982866ed8eda7b542f3 = $(`<div id="html_af75e284803aa982866ed8eda7b542f3" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_030</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.8743°N, 75.7954°E<br>             • District: Ludhiana<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.9<br>             • Organic Carbon: 0.83%<br>             • N Available: 157 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.1°C<br>             • Humidity: 97%<br>             • Rainfall: 0.1mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_34947e6bfe2cc4ab46c13a1066cbe0c5.setContent(html_af75e284803aa982866ed8eda7b542f3);
+            
+        
+
+        circle_marker_de2717737f398a8afe00adf5c3b1bf7b.bindPopup(popup_34947e6bfe2cc4ab46c13a1066cbe0c5)
+        ;
+
+        
+    
+    
+            var circle_marker_64d6ae44e5efa29db0e8c52b259acaa7 = L.circleMarker(
+                [31.520500809326077, 75.63997747028631],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_1dae894f0fb94b3e124fffc56e76aec9 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_25094332109d610ebd39af0309c09ca2 = $(`<div id="html_25094332109d610ebd39af0309c09ca2" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_031</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.5205°N, 75.6400°E<br>             • District: Kapurthala<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Medium<br>             • pH: 7.5<br>             • Organic Carbon: 0.79%<br>             • N Available: 113 kg/ha<br>             • Data Source: Punjab_Research_Model_Northern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.5°C<br>             • Humidity: 95%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_1dae894f0fb94b3e124fffc56e76aec9.setContent(html_25094332109d610ebd39af0309c09ca2);
+            
+        
+
+        circle_marker_64d6ae44e5efa29db0e8c52b259acaa7.bindPopup(popup_1dae894f0fb94b3e124fffc56e76aec9)
+        ;
+
+        
+    
+    
+            var circle_marker_53e89b8a4f62c30e65a351f43ccc8b27 = L.circleMarker(
+                [30.693198481762952, 76.8685299346838],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_8104465890fc03812d850a475f60be67 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_4fd769d0ade291cb6c314022055eb447 = $(`<div id="html_4fd769d0ade291cb6c314022055eb447" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_032</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.6932°N, 76.8685°E<br>             • District: Mohali<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.0<br>             • Organic Carbon: 0.35%<br>             • N Available: 108 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.2°C<br>             • Humidity: 93%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_8104465890fc03812d850a475f60be67.setContent(html_4fd769d0ade291cb6c314022055eb447);
+            
+        
+
+        circle_marker_53e89b8a4f62c30e65a351f43ccc8b27.bindPopup(popup_8104465890fc03812d850a475f60be67)
+        ;
+
+        
+    
+    
+            var circle_marker_c9de651d9836761cb569ccfc55e55d0d = L.circleMarker(
+                [30.200935573863195, 76.50163122814809],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_94d8340255e6f14ff0ff00f910e2c24f = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_ba868f89cd00d07506da5d0c5893f9b6 = $(`<div id="html_ba868f89cd00d07506da5d0c5893f9b6" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_033</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.2009°N, 76.5016°E<br>             • District: Patiala<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.0<br>             • Organic Carbon: 0.33%<br>             • N Available: 116 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.2°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_94d8340255e6f14ff0ff00f910e2c24f.setContent(html_ba868f89cd00d07506da5d0c5893f9b6);
+            
+        
+
+        circle_marker_c9de651d9836761cb569ccfc55e55d0d.bindPopup(popup_94d8340255e6f14ff0ff00f910e2c24f)
+        ;
+
+        
+    
+    
+            var circle_marker_5c01f638e49d4820c32f50f57932f426 = L.circleMarker(
+                [31.209844438044, 76.5799413792399],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_1ea21203721cbd8ea76fa31f873c407e = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_cd4dfd9e936cecf1847dba53341db53d = $(`<div id="html_cd4dfd9e936cecf1847dba53341db53d" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_034</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.2098°N, 76.5799°E<br>             • District: Mohali<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.1<br>             • Organic Carbon: 0.59%<br>             • N Available: 141 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.7°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_1ea21203721cbd8ea76fa31f873c407e.setContent(html_cd4dfd9e936cecf1847dba53341db53d);
+            
+        
+
+        circle_marker_5c01f638e49d4820c32f50f57932f426.bindPopup(popup_1ea21203721cbd8ea76fa31f873c407e)
+        ;
+
+        
+    
+    
+            var circle_marker_77ab48f6fde61b4475d60215a0ea07be = L.circleMarker(
+                [32.02141992126103, 75.26216634921575],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_6f20d19587540226c591677ab4c74400 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_71fa61a0b28edbf33c5c7f98fbbe9631 = $(`<div id="html_71fa61a0b28edbf33c5c7f98fbbe9631" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_035</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 32.0214°N, 75.2622°E<br>             • District: Gurdaspur<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Medium<br>             • pH: 7.1<br>             • Organic Carbon: 0.79%<br>             • N Available: 184 kg/ha<br>             • Data Source: Punjab_Research_Model_Northern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.6°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_6f20d19587540226c591677ab4c74400.setContent(html_71fa61a0b28edbf33c5c7f98fbbe9631);
+            
+        
+
+        circle_marker_77ab48f6fde61b4475d60215a0ea07be.bindPopup(popup_6f20d19587540226c591677ab4c74400)
+        ;
+
+        
+    
+    
+            var circle_marker_59a15526628e42617f894087667bf63a = L.circleMarker(
+                [31.339057060235728, 75.53114889743011],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_8e3c68f6764f22d18d6cc986632955b5 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_d01d1263697b53edebfc83ba76658196 = $(`<div id="html_d01d1263697b53edebfc83ba76658196" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_036</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.3391°N, 75.5311°E<br>             • District: Jalandhar<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 8.1<br>             • Organic Carbon: 0.64%<br>             • N Available: 240 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.9°C<br>             • Humidity: 97%<br>             • Rainfall: 1.5mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_8e3c68f6764f22d18d6cc986632955b5.setContent(html_d01d1263697b53edebfc83ba76658196);
+            
+        
+
+        circle_marker_59a15526628e42617f894087667bf63a.bindPopup(popup_8e3c68f6764f22d18d6cc986632955b5)
+        ;
+
+        
+    
+    
+            var circle_marker_0fd73df8206d6052d966851a30044efc = L.circleMarker(
+                [30.480142126451288, 75.0331034312595],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_ee26d39c714f7f93b9eed6e4673a33e0 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_fdffa5995b4390ec19c48ca7184d797c = $(`<div id="html_fdffa5995b4390ec19c48ca7184d797c" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_037</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.4801°N, 75.0331°E<br>             • District: Bathinda<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 7.9<br>             • Organic Carbon: 0.49%<br>             • N Available: 145 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.5°C<br>             • Humidity: 98%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_ee26d39c714f7f93b9eed6e4673a33e0.setContent(html_fdffa5995b4390ec19c48ca7184d797c);
+            
+        
+
+        circle_marker_0fd73df8206d6052d966851a30044efc.bindPopup(popup_ee26d39c714f7f93b9eed6e4673a33e0)
+        ;
+
+        
+    
+    
+            var circle_marker_558fcd5d1cce3831efcefa852d2f6483 = L.circleMarker(
+                [30.260837531948976, 76.15974191937785],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_ec0bad38eefdc6c88b346dac2e3b0ae5 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_dc845011f4c4771dd4f5305b42c045cd = $(`<div id="html_dc845011f4c4771dd4f5305b42c045cd" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_038</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.2608°N, 76.1597°E<br>             • District: Patiala<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.0<br>             • Organic Carbon: 0.16%<br>             • N Available: 57 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.1°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_ec0bad38eefdc6c88b346dac2e3b0ae5.setContent(html_dc845011f4c4771dd4f5305b42c045cd);
+            
+        
+
+        circle_marker_558fcd5d1cce3831efcefa852d2f6483.bindPopup(popup_ec0bad38eefdc6c88b346dac2e3b0ae5)
+        ;
+
+        
+    
+    
+            var circle_marker_446fe851066807954925625afc8175f2 = L.circleMarker(
+                [31.569438074901207, 75.69955996154627],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_a88a704caddda8b0cd722b1fab67ed74 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e6edd31f1b27ef40622995b426a4e233 = $(`<div id="html_e6edd31f1b27ef40622995b426a4e233" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_039</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.5694°N, 75.6996°E<br>             • District: Jalandhar<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Medium<br>             • pH: 7.7<br>             • Organic Carbon: 0.53%<br>             • N Available: 116 kg/ha<br>             • Data Source: Punjab_Research_Model_Northern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.4°C<br>             • Humidity: 94%<br>             • Rainfall: 0.2mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_a88a704caddda8b0cd722b1fab67ed74.setContent(html_e6edd31f1b27ef40622995b426a4e233);
+            
+        
+
+        circle_marker_446fe851066807954925625afc8175f2.bindPopup(popup_a88a704caddda8b0cd722b1fab67ed74)
+        ;
+
+        
+    
+    
+            var circle_marker_2bc82642e2e64ef2b6edc27725ba9748 = L.circleMarker(
+                [30.348310317655308, 74.99531266644895],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_7c074a2ea80ef55e632c5dd21ed421b2 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_cd7e67598777e74e60026ba088466ab7 = $(`<div id="html_cd7e67598777e74e60026ba088466ab7" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_040</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.3483°N, 74.9953°E<br>             • District: Bathinda<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.2<br>             • Organic Carbon: 0.36%<br>             • N Available: 127 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.7°C<br>             • Humidity: 97%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_7c074a2ea80ef55e632c5dd21ed421b2.setContent(html_cd7e67598777e74e60026ba088466ab7);
+            
+        
+
+        circle_marker_2bc82642e2e64ef2b6edc27725ba9748.bindPopup(popup_7c074a2ea80ef55e632c5dd21ed421b2)
+        ;
+
+        
+    
+    
+            var circle_marker_5c236b2f8e017aeae0bf27f1295044e6 = L.circleMarker(
+                [30.14878530483918, 74.73618886775913],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_9bebce141a73034b639179c647ef7b90 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e6580703cf4cb69a92cb582601bc4c86 = $(`<div id="html_e6580703cf4cb69a92cb582601bc4c86" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_041</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.1488°N, 74.7362°E<br>             • District: Bathinda<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.6<br>             • Organic Carbon: 0.69%<br>             • N Available: 98 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 24.0°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_9bebce141a73034b639179c647ef7b90.setContent(html_e6580703cf4cb69a92cb582601bc4c86);
+            
+        
+
+        circle_marker_5c236b2f8e017aeae0bf27f1295044e6.bindPopup(popup_9bebce141a73034b639179c647ef7b90)
+        ;
+
+        
+    
+    
+            var circle_marker_2066e38b8859e0c2ed265dd2400512f8 = L.circleMarker(
+                [30.909779320032467, 76.74433299409323],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_ce2bd65b4e93bbbc2eb807f788cdc777 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_a0992506bbf427e7f15e4f6293e4bf28 = $(`<div id="html_a0992506bbf427e7f15e4f6293e4bf28" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_042</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.9098°N, 76.7443°E<br>             • District: Mohali<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.9<br>             • Organic Carbon: 0.54%<br>             • N Available: 205 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 22.6°C<br>             • Humidity: 95%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_ce2bd65b4e93bbbc2eb807f788cdc777.setContent(html_a0992506bbf427e7f15e4f6293e4bf28);
+            
+        
+
+        circle_marker_2066e38b8859e0c2ed265dd2400512f8.bindPopup(popup_ce2bd65b4e93bbbc2eb807f788cdc777)
+        ;
+
+        
+    
+    
+            var circle_marker_638f6205ae65257fae174379ca9ad9c0 = L.circleMarker(
+                [30.31961248772888, 74.90763530445615],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_0399d680b9e2740a73ed6d6be460ef11 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_767563cc9d25fa1c6b4e1ff3577a358c = $(`<div id="html_767563cc9d25fa1c6b4e1ff3577a358c" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_043</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.3196°N, 74.9076°E<br>             • District: Bathinda<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.2<br>             • Organic Carbon: 0.30%<br>             • N Available: 124 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.7°C<br>             • Humidity: 97%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_0399d680b9e2740a73ed6d6be460ef11.setContent(html_767563cc9d25fa1c6b4e1ff3577a358c);
+            
+        
+
+        circle_marker_638f6205ae65257fae174379ca9ad9c0.bindPopup(popup_0399d680b9e2740a73ed6d6be460ef11)
+        ;
+
+        
+    
+    
+            var circle_marker_d3510cb08031a4ceac08edfe29322c29 = L.circleMarker(
+                [30.842183777030176, 75.63747275778019],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_b1b50c5ae9a02bc77a43d0bf5288114d = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_96337f478e9e9127da5961e16614d322 = $(`<div id="html_96337f478e9e9127da5961e16614d322" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_044</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.8422°N, 75.6375°E<br>             • District: Ludhiana<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 6.8<br>             • Organic Carbon: 0.96%<br>             • N Available: 126 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.2°C<br>             • Humidity: 97%<br>             • Rainfall: 0.2mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_b1b50c5ae9a02bc77a43d0bf5288114d.setContent(html_96337f478e9e9127da5961e16614d322);
+            
+        
+
+        circle_marker_d3510cb08031a4ceac08edfe29322c29.bindPopup(popup_b1b50c5ae9a02bc77a43d0bf5288114d)
+        ;
+
+        
+    
+    
+            var circle_marker_4e5219674963ca809a358fe469061048 = L.circleMarker(
+                [30.008591504015047, 74.79313908219478],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_914872257a53e06e4e81162cbda7c89d = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e5e1ed6b8635aaadebe431af06f7319f = $(`<div id="html_e5e1ed6b8635aaadebe431af06f7319f" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_045</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.0086°N, 74.7931°E<br>             • District: Bathinda<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 7.5<br>             • Organic Carbon: 0.46%<br>             • N Available: 114 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 24.2°C<br>             • Humidity: 95%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_914872257a53e06e4e81162cbda7c89d.setContent(html_e5e1ed6b8635aaadebe431af06f7319f);
+            
+        
+
+        circle_marker_4e5219674963ca809a358fe469061048.bindPopup(popup_914872257a53e06e4e81162cbda7c89d)
+        ;
+
+        
+    
+    
+            var circle_marker_884f5dc3f4b1b7d5374d66e49628acba = L.circleMarker(
+                [30.30572359286548, 76.76982769158332],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_aed2d10afa70c97a6bb9f592d422fddc = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_1bf79dee03e9ebc21eca9b219d03f3f3 = $(`<div id="html_1bf79dee03e9ebc21eca9b219d03f3f3" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_046</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.3057°N, 76.7698°E<br>             • District: Mohali<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 7.9<br>             • Organic Carbon: 0.47%<br>             • N Available: 61 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.1°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_aed2d10afa70c97a6bb9f592d422fddc.setContent(html_1bf79dee03e9ebc21eca9b219d03f3f3);
+            
+        
+
+        circle_marker_884f5dc3f4b1b7d5374d66e49628acba.bindPopup(popup_aed2d10afa70c97a6bb9f592d422fddc)
+        ;
+
+        
+    
+    
+            var circle_marker_d36605943eb70f88e1f851de87dc2bc0 = L.circleMarker(
+                [30.1765601307078, 76.5212326482889],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_30d40dea4c72ea1c98162dbaa36abbd1 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_677dc3eccd9eec591ddfa151b4d58463 = $(`<div id="html_677dc3eccd9eec591ddfa151b4d58463" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_047</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.1766°N, 76.5212°E<br>             • District: Patiala<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.2<br>             • Organic Carbon: 0.24%<br>             • N Available: 134 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.2°C<br>             • Humidity: 96%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_30d40dea4c72ea1c98162dbaa36abbd1.setContent(html_677dc3eccd9eec591ddfa151b4d58463);
+            
+        
+
+        circle_marker_d36605943eb70f88e1f851de87dc2bc0.bindPopup(popup_30d40dea4c72ea1c98162dbaa36abbd1)
+        ;
+
+        
+    
+    
+            var circle_marker_4dca9a75d389f89e015e7ab83f488cce = L.circleMarker(
+                [31.353807143250098, 75.44160762852218],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_e5fb24d9d5b125560a7082322015bf79 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_65cbe18ebce844bfffca07c503ec7bfc = $(`<div id="html_65cbe18ebce844bfffca07c503ec7bfc" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_048</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.3538°N, 75.4416°E<br>             • District: Kapurthala<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.3<br>             • Organic Carbon: 0.87%<br>             • N Available: 171 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.0°C<br>             • Humidity: 97%<br>             • Rainfall: 0.2mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_e5fb24d9d5b125560a7082322015bf79.setContent(html_65cbe18ebce844bfffca07c503ec7bfc);
+            
+        
+
+        circle_marker_4dca9a75d389f89e015e7ab83f488cce.bindPopup(popup_e5fb24d9d5b125560a7082322015bf79)
+        ;
+
+        
+    
+    
+            var circle_marker_68332dc0867755c79c0915b62e082cf5 = L.circleMarker(
+                [31.06426004954691, 75.57056107961496],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_c05b8466693db24c6eac3e9e6340d7a3 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_da232ae59c5f1ce57f8199adc94b1582 = $(`<div id="html_da232ae59c5f1ce57f8199adc94b1582" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_049</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 31.0643°N, 75.5706°E<br>             • District: Kapurthala<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Good<br>             • pH: 7.3<br>             • Organic Carbon: 0.81%<br>             • N Available: 138 kg/ha<br>             • Data Source: Punjab_Research_Model_Central<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.3°C<br>             • Humidity: 97%<br>             • Rainfall: 0.8mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_c05b8466693db24c6eac3e9e6340d7a3.setContent(html_da232ae59c5f1ce57f8199adc94b1582);
+            
+        
+
+        circle_marker_68332dc0867755c79c0915b62e082cf5.bindPopup(popup_c05b8466693db24c6eac3e9e6340d7a3)
+        ;
+
+        
+    
+    
+            var circle_marker_a6f9898c8798d30a4c8b8a9787021845 = L.circleMarker(
+                [30.701217379323253, 76.46697430670147],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(map_27201d2afe0bef43ff44dbc6cfa446ba);
+        
+    
+        var popup_89d546b962485ec83871b6924b71a4d2 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_8d2300ea33800362377d45a25c590cc7 = $(`<div id="html_8d2300ea33800362377d45a25c590cc7" style="width: 100.0%; height: 100.0%;">         <div style='width: 300px; font-family: Arial;'>             <h4>🌾 Farm Plot: PB_050</h4>             <hr>             <b>📍 Location:</b><br>             • Coordinates: 30.7012°N, 76.4670°E<br>             • District: Mohali<br>              <hr><b>🛰️ Satellite Data:</b><br>             • NDVI: 0.725 (Healthy)<br>             • NDWI: 0.236<br>             • Data Source: Synthetic_Fallback<br>              <hr><b>🌱 Soil Health:</b><br>             • Status: Poor<br>             • pH: 8.3<br>             • Organic Carbon: 0.82%<br>             • N Available: 153 kg/ha<br>             • Data Source: Punjab_Research_Model_Southern<br>              <hr><b>🌤️ Weather Data:</b><br>             • Temperature: 23.1°C<br>             • Humidity: 97%<br>             • Rainfall: 0.0mm<br>             • Data Source: OpenWeatherMap<br>         </div>         </div>`)[0];
+                popup_89d546b962485ec83871b6924b71a4d2.setContent(html_8d2300ea33800362377d45a25c590cc7);
+            
+        
+
+        circle_marker_a6f9898c8798d30a4c8b8a9787021845.bindPopup(popup_89d546b962485ec83871b6924b71a4d2)
+        ;
+
+        
+    
+</script>
+</html>

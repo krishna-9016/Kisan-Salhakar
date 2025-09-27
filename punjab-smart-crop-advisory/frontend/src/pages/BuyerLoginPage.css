@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap');
+
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Poppins', sans-serif;
+}
+
+.login-art-panel {
+  flex: 1.2;
+  background: linear-gradient(135deg, #2e7d32 0%, #66bb6a 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-title-login {
+  font-weight: 800 !important;
+  color: white;
+  z-index: 1;
+  font-size: 3.5rem !important;
+}
+
+.subtitle-login {
+  color: rgba(255, 255, 255, 0.9);
+  z-index: 1;
+  margin-top: 8px !important;
+}
+
+.login-form-panel {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f6f8;
+}
+
+.form-box {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.login-button {
+  margin-top: 16px !important;
+  padding: 12px !important;
+  font-weight: bold !important;
+  background-color: #388e3c !important;
+}
+
+.otp-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 24px 0;
+}
+
+.otp-input {
+  width: 45px !important;
+  height: 45px;
+  font-size: 1.5rem;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+@media (max-width: 900px) {
+  .login-art-panel {
+    display: none;
+  }
+}

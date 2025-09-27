@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}Predict Yield - Punjab Crop Advisory{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="fas fa-seedling"></i> Crop Yield Prediction</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" id="predictionForm">
+                        <!-- Crop and Location Information -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-success">🌾 Crop & Location Information</h5>
+                                <hr>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="crop_type" class="form-label">Crop Type *</label>
+                                <select class="form-select" id="crop_type" name="crop_type" required>
+                                    <option value="Wheat">Wheat</option>
+                                    <option value="Rice">Rice</option>
+                                    <option value="Cotton">Cotton</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="district" class="form-label">District *</label>
+                                <select class="form-select" id="district" name="district" required>
+                                    <option value="Ludhiana">Ludhiana</option>
+                                    <option value="Amritsar">Amritsar</option>
+                                    <option value="Jalandhar">Jalandhar</option>
+                                    <option value="Bathinda">Bathinda</option>
+                                    <option value="Patiala">Patiala</option>
+                                    <option value="Mohali">Mohali</option>
+                                    <option value="Ferozepur">Ferozepur</option>
+                                    <option value="Gurdaspur">Gurdaspur</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="latitude" class="form-label">Latitude</label>
+                                <input type="number" class="form-control" id="latitude" name="latitude" 
+                                       value="30.9" step="0.0001" min="29" max="33">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="longitude" class="form-label">Longitude</label>
+                                <input type="number" class="form-control" id="longitude" name="longitude" 
+                                       value="75.8" step="0.0001" min="73" max="77">
+                            </div>
+                        </div>
+
+                        <!-- Satellite Data -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary">🛰️ Satellite Data</h5>
+                                <hr>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ndvi_mean" class="form-label">NDVI (Vegetation Health) *</label>
+                                <input type="number" class="form-control" id="ndvi_mean" name="ndvi_mean" 
+                                       value="0.7" step="0.001" min="0" max="1" required>
+                                <div class="form-text">Range: 0.0 - 1.0 (Higher = Healthier vegetation)</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ndwi_mean" class="form-label">NDWI (Water Content)</label>
+                                <input type="number" class="form-control" id="ndwi_mean" name="ndwi_mean" 
+                                       value="0.3" step="0.001" min="-1" max="1">
+                                <div class="form-text">Range: -1.0 - 1.0 (Higher = More water content)</div>
+                            </div>
+                        </div>
+
+                        <!-- Weather Data -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-warning">🌤️ Weather Conditions</h5>
+                                <hr>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="temperature" class="form-label">Temperature (°C) *</label>
+                                <input type="number" class="form-control" id="temperature" name="temperature" 
+                                       value="25" step="0.1" min="-10" max="50" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="humidity" class="form-label">Humidity (%) *</label>
+                                <input type="number" class="form-control" id="humidity" name="humidity" 
+                                       value="65" step="0.1" min="0" max="100" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="rainfall" class="form-label">Rainfall (mm)</label>
+                                <input type="number" class="form-control" id="rainfall" name="rainfall" 
+                                       value="2" step="0.1" min="0" max="500">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="wind_speed" class="form-label">Wind Speed (km/h)</label>
+                                <input type="number" class="form-control" id="wind_speed" name="wind_speed" 
+                                       value="10" step="0.1" min="0" max="100">
+                            </div>
+                        </div>
+
+                        <!-- Soil Data -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-info">🌱 Soil Properties</h5>
+                                <hr>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="pH" class="form-label">Soil pH *</label>
+                                <input type="number" class="form-control" id="pH" name="pH" 
+                                       value="7.0" step="0.1" min="3" max="11" required>
+                                <div class="form-text">Range: 3.0 - 11.0 (7.0 = Neutral)</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="organic_carbon" class="form-label">Organic Carbon (%)</label>
+                                <input type="number" class="form-control" id="organic_carbon" name="organic_carbon" 
+                                       value="0.6" step="0.01" min="0" max="5">
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label for="N_available" class="form-label">Nitrogen (kg/ha)</label>
+                                <input type="number" class="form-control" id="N_available" name="N_available" 
+                                       value="180" step="1" min="0" max="500">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="P_available" class="form-label">Phosphorus (kg/ha)</label>
+                                <input type="number" class="form-control" id="P_available" name="P_available" 
+                                       value="15" step="0.1" min="0" max="100">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="K_available" class="form-label">Potassium (kg/ha)</label>
+                                <input type="number" class="form-control" id="K_available" name="K_available" 
+                                       value="250" step="1" min="0" max="1000">
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="fas fa-chart-line"></i> Predict Yield
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-lg ms-2" onclick="loadSampleData()">
+                                    <i class="fas fa-magic"></i> Load Sample Data
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function loadSampleData() {
+    const cropType = document.getElementById('crop_type').value;
+    
+    // Sample data for different crops
+    const sampleData = {
+        'Wheat': {
+            ndvi_mean: 0.75,
+            ndwi_mean: 0.30,
+            temperature: 18.5,
+            humidity: 68.0,
+            rainfall: 2.5,
+            pH: 7.2,
+            organic_carbon: 0.85,
+            N_available: 240,
+            P_available: 28,
+            K_available: 320
+        },
+        'Rice': {
+            ndvi_mean: 0.82,
+            ndwi_mean: 0.35,
+            temperature: 28.0,
+            humidity: 78.0,
+            rainfall: 5.2,
+            pH: 7.8,
+            organic_carbon: 0.72,
+            N_available: 180,
+            P_available: 22,
+            K_available: 290
+        },
+        'Cotton': {
+            ndvi_mean: 0.65,
+            ndwi_mean: 0.25,
+            temperature: 35.0,
+            humidity: 55.0,
+            rainfall: 1.5,
+            pH: 7.5,
+            organic_carbon: 0.60,
+            N_available: 150,
+            P_available: 18,
+            K_available: 200
+        }
+    };
+    
+    const data = sampleData[cropType];
+    
+    // Fill form with sample data
+    Object.keys(data).forEach(key => {
+        const element = document.getElementById(key);
+        if (element) {
+            element.value = data[key];
+        }
+    });
+    
+    alert(`Sample data loaded for ${cropType}!`);
+}
+
+// Form validation
+document.getElementById('predictionForm').addEventListener('submit', function(e) {
+    const requiredFields = ['crop_type', 'district', 'ndvi_mean', 'temperature', 'humidity', 'pH'];
+    let valid = true;
+    
+    requiredFields.forEach(field => {
+        const element = document.getElementById(field);
+        if (!element.value) {
+            element.classList.add('is-invalid');
+            valid = false;
+        } else {
+            element.classList.remove('is-invalid');
+        }
+    });
+    
+    if (!valid) {
+        e.preventDefault();
+        alert('Please fill in all required fields.');
+    }
+});
+</script>
+{% endblock %}

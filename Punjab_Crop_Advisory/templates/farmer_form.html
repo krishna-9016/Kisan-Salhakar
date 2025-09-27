@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punjab Smart Crop Advisory</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #e8f5e8, #f0f9ff); min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 2rem 0; margin-bottom: 2rem; }
+        .card { border: none; box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-radius: 15px; }
+        .form-control { border-radius: 8px; }
+        .btn { border-radius: 8px; padding: 10px 30px; }
+        .result-card { background: linear-gradient(135deg, #d4edda, #d1ecf1); border-left: 5px solid #28a745; }
+        .recommendation { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; margin: 5px 0; border-radius: 5px; }
+        .metric { background: white; padding: 15px; border-radius: 10px; margin: 10px 0; border-left: 4px solid #17a2b8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container text-center">
+            <h1 class="display-5 mb-2">🌾 Punjab Smart Crop Advisory</h1>
+            <p class="lead">AI-Powered Crop Yield Prediction for Punjab Farmers</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- Input Form -->
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0"><i class="fas fa-seedling"></i> Enter Farm Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <!-- Basic Info -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">👨‍🌾 Farmer Name</label>
+                                    <input type="text" class="form-control" name="farmer_name" value="{{ request.form.farmer_name or 'Farmer' }}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">🏞️ Farm Size (Hectares)</label>
+                                    <input type="number" class="form-control" name="farm_size" value="{{ request.form.farm_size or '1' }}" step="0.1" min="0.1" required>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">🌾 Crop Type</label>
+                                    <select class="form-control" name="crop_type" required>
+                                        <option value="">Select Crop</option>
+                                        {% for crop in crops %}
+                                        <option value="{{ crop }}" {% if request.form.crop_type == crop %}selected{% endif %}>{{ crop }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">📍 District</label>
+                                    <select class="form-control" name="district" required>
+                                        <option value="">Select District</option>
+                                        {% for district in districts %}
+                                        <option value="{{ district }}" {% if request.form.district == district %}selected{% endif %}>{{ district }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Environmental Data -->
+                            <h6 class="text-success mt-4 mb-3">🛰️ Satellite & Weather Data</h6>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">🌱 NDVI (Vegetation Health)</label>
+                                    <input type="number" class="form-control" name="ndvi" value="{{ request.form.ndvi or '0.7' }}" step="0.01" min="0" max="1" required>
+                                    <small class="text-muted">0.3-0.8 (Higher = Healthier crops)</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">🌡️ Temperature (°C)</label>
+                                    <input type="number" class="form-control" name="temperature" value="{{ request.form.temperature or '25' }}" step="0.1" required>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">💧 Humidity (%)</label>
+                                    <input type="number" class="form-control" name="humidity" value="{{ request.form.humidity or '65' }}" step="1" min="0" max="100" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">🌧️ Rainfall (mm/month)</label>
+                                    <input type="number" class="form-control" name="rainfall" value="{{ request.form.rainfall or '500' }}" step="1" min="0" required>
+                                </div>
+                            </div>
+
+                            <!-- Soil Data -->
+                            <h6 class="text-success mt-4 mb-3">🌱 Soil Analysis</h6>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">🧪 pH Level</label>
+                                    <input type="number" class="form-control" name="ph" value="{{ request.form.ph or '7.0' }}" step="0.1" min="3" max="12" required>
+                                    <small class="text-muted">6.5-7.5 is optimal</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">🌾 Nitrogen (N) kg/ha</label>
+                                    <input type="number" class="form-control" name="nitrogen" value="{{ request.form.nitrogen or '200' }}" step="1" min="0" required>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">🌾 Phosphorus (P) kg/ha</label>
+                                    <input type="number" class="form-control" name="phosphorus" value="{{ request.form.phosphorus or '25' }}" step="1" min="0" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">🌾 Potassium (K) kg/ha</label>
+                                    <input type="number" class="form-control" name="potassium" value="{{ request.form.potassium or '300' }}" step="1" min="0" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-lg w-100 mt-3">
+                                <i class="fas fa-calculator"></i> Predict Crop Yield
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="col-lg-6">
+                {% if show_result and result %}
+                <div class="card result-card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="fas fa-chart-line"></i> Prediction Results</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="text-success">👨‍🌾 {{ result.farmer_name }}</h5>
+                        <p class="text-muted">{{ result.crop_type }} farming in {{ result.district }}</p>
+
+                        <!-- Key Metrics -->
+                        <div class="metric">
+                            <h5 class="text-primary mb-2">📊 Yield Prediction</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Yield per Hectare:</strong><br>
+                                    <span class="h4 text-success">{{ result.predicted_yield }} kg/ha</span>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Total Production:</strong><br>
+                                    <span class="h4 text-info">{{ result.total_production }} kg</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="metric">
+                            <h6 class="text-success">💰 Estimated Income</h6>
+                            <span class="h4 text-warning">₹{{ "{:,.0f}".format(result.estimated_income) }}</span>
+                            <small class="text-muted d-block">Based on current market prices</small>
+                        </div>
+
+                        <!-- Recommendations -->
+                        <div class="mt-4">
+                            <h6 class="text-success">💡 Smart Recommendations</h6>
+                            {% for rec in result.recommendations %}
+                            <div class="recommendation">
+                                {{ rec }}
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="mt-4">
+                            <button class="btn btn-outline-success btn-sm" onclick="window.print()">
+                                <i class="fas fa-print"></i> Print Report
+                            </button>
+                            <button class="btn btn-outline-info btn-sm" onclick="location.reload()">
+                                <i class="fas fa-refresh"></i> New Prediction
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="card">
+                    <div class="card-body text-center p-5">
+                        <i class="fas fa-chart-bar fa-5x text-muted mb-4"></i>
+                        <h4 class="text-muted">Prediction Results</h4>
+                        <p class="text-muted">Fill the form and click "Predict Crop Yield" to see your results here.</p>
+                        
+                        <!-- Sample Features -->
+                        <div class="mt-4">
+                            <h6 class="text-success">🌟 What You'll Get:</h6>
+                            <ul class="list-unstyled">
+                                <li>📈 Accurate yield predictions</li>
+                                <li>💰 Income estimates</li>
+                                <li>🌱 Smart farming recommendations</li>
+                                <li>📊 Soil health analysis</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Info Cards -->
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-satellite fa-2x text-info mb-2"></i>
+                        <h6>Satellite Data</h6>
+                        <small class="text-muted">Real-time NDVI from Sentinel-2</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-brain fa-2x text-warning mb-2"></i>
+                        <h6>AI Predictions</h6>
+                        <small class="text-muted">Machine Learning algorithms</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-chart-line fa-2x text-success mb-2"></i>
+                        <h6>Actionable Insights</h6>
+                        <small class="text-muted">Data-driven recommendations</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-4 mt-5">
+        <div class="container">
+            <p class="text-muted">&copy; 2024 Punjab Smart Crop Advisory. Empowering farmers with AI.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

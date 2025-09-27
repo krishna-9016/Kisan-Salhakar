@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punjab Crop Advisory - Smart Farming Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2E8B57 0%, #228B22 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .input-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .output-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #2E8B57;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2E8B57;
+            box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.1);
+        }
+
+        .api-config {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .api-config h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .predict-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .predict-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .predict-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #007bff;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #28a745;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .result-card.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .prediction-main {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .yield-value {
+            font-size: 3em;
+            font-weight: bold;
+            color: #28a745;
+            margin: 10px 0;
+        }
+
+        .yield-range {
+            font-size: 1.1em;
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+
+        .prediction-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .detail-label {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .recommendations {
+            background: #e8f5e8;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .recommendations h4 {
+            color: #2E8B57;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recommendations ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .recommendations li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+
+        .error-card {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 10px;
+            padding: 20px;
+            color: #721c24;
+            display: none;
+        }
+
+        .error-card.show {
+            display: block;
+        }
+
+        .weather-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .weather-item {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .soil-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .soil-item {
+            background: #fff3e0;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .prediction-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .weather-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .soil-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>🌾 Punjab Crop Advisory Dashboard</h1>
+            <p>Smart Farming with AI-Powered Crop Yield Predictions</p>
+        </div>
+        
+        <div class="main-content">
+            <!-- Input Section -->
+            <div class="input-section">
+                <h2 class="section-title">📋 Farm Information</h2>
+                
+                <div class="api-config">
+                    <h3>🔧 API Configuration</h3>
+                    <div class="form-group">
+                        <label for="apiUrl">API URL:</label>
+                        <input type="text" id="apiUrl" value="http://localhost:8000" placeholder="Enter API URL">
+                    </div>
+                    <div class="form-group">
+                        <label for="apiKey">API Key:</label>
+                        <input type="password" id="apiKey" placeholder="Enter your API key">
+                    </div>
+                </div>
+
+                <form id="predictionForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="latitude">📍 Latitude:</label>
+                            <input type="number" id="latitude" step="0.0001" value="30.9010" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="longitude">📍 Longitude:</label>
+                            <input type="number" id="longitude" step="0.0001" value="75.8573" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="crop">🌱 Crop Type:</label>
+                            <select id="crop" required>
+                                <option value="wheat">Wheat</option>
+                                <option value="rice">Rice</option>
+                                <option value="maize">Maize</option>
+                                <option value="cotton">Cotton</option>
+                                <option value="sugarcane">Sugarcane</option>
+                                <option value="potato">Potato</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="district">🏘️ District:</label>
+                            <select id="district" required>
+                                <option value="Amritsar">Amritsar</option>
+                                <option value="Ludhiana">Ludhiana</option>
+                                <option value="Jalandhar">Jalandhar</option>
+                                <option value="Patiala">Patiala</option>
+                                <option value="Bathinda">Bathinda</option>
+                                <option value="Mohali">Mohali</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="farm_size_acres">📏 Farm Size (acres):</label>
+                            <input type="number" id="farm_size_acres" step="0.1" value="5.0" min="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="season">🗓️ Season:</label>
+                            <select id="season" required>
+                                <option value="rabi">Rabi (Winter)</option>
+                                <option value="kharif">Kharif (Monsoon)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3 style="color: #2E8B57; margin: 20px 0 15px 0;">🌡️ Weather Parameters</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="temperature">Temperature (°C):</label>
+                            <input type="number" id="temperature" step="0.1" value="25.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="humidity">Humidity (%):</label>
+                            <input type="number" id="humidity" step="0.1" value="60.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="rainfall">Rainfall (mm):</label>
+                            <input type="number" id="rainfall" step="0.1" value="600.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="wind_speed">Wind Speed (km/h):</label>
+                            <input type="number" id="wind_speed" step="0.1" value="10.0">
+                        </div>
+                    </div>
+
+                    <h3 style="color: #2E8B57; margin: 20px 0 15px 0;">🌱 Soil Parameters</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="pH">Soil pH:</label>
+                            <input type="number" id="pH" step="0.1" value="7.0" min="4.0" max="9.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="organic_carbon">Organic Carbon (%):</label>
+                            <input type="number" id="organic_carbon" step="0.01" value="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="N_available">Available Nitrogen:</label>
+                            <input type="number" id="N_available" step="1" value="250">
+                        </div>
+                        <div class="form-group">
+                            <label for="P_available">Available Phosphorus:</label>
+                            <input type="number" id="P_available" step="1" value="25">
+                        </div>
+                        <div class="form-group">
+                            <label for="K_available">Available Potassium:</label>
+                            <input type="number" id="K_available" step="1" value="300">
+                        </div>
+                        <div class="form-group">
+                            <label for="sowing_month">Sowing Month:</label>
+                            <select id="sowing_month">
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11" selected>November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="predict-btn" id="predictBtn">
+                        🔮 Get Crop Yield Prediction
+                    </button>
+                </form>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Analyzing your farm data...</p>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="output-section">
+                <h2 class="section-title">📊 Prediction Results</h2>
+                
+                <div class="result-card" id="resultCard">
+                    <div class="prediction-main">
+                        <h3>🎯 Predicted Crop Yield</h3>
+                        <div class="yield-value" id="yieldValue">--</div>
+                        <div class="yield-range" id="yieldRange">kg/acre</div>
+                    </div>
+
+                    <div class="prediction-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Crop Type</div>
+                            <div class="detail-value" id="cropType">--</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Farm Size</div>
+                            <div class="detail-value" id="farmSize">--</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">District</div>
+                            <div class="detail-value" id="districtInfo">--</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Season</div>
+                            <div class="detail-value" id="seasonInfo">--</div>
+                        </div>
+                    </div>
+
+                    <div class="weather-info">
+                        <div class="weather-item">
+                            <div>🌡️ Temperature</div>
+                            <div id="tempDisplay">--°C</div>
+                        </div>
+                        <div class="weather-item">
+                            <div>💧 Humidity</div>
+                            <div id="humidityDisplay">--%</div>
+                        </div>
+                        <div class="weather-item">
+                            <div>🌧️ Rainfall</div>
+                            <div id="rainfallDisplay">--mm</div>
+                        </div>
+                        <div class="weather-item">
+                            <div>💨 Wind Speed</div>
+                            <div id="windDisplay">--km/h</div>
+                        </div>
+                    </div>
+
+                    <div class="soil-info">
+                        <div class="soil-item">
+                            <div>🧪 Soil pH</div>
+                            <div id="phDisplay">--</div>
+                        </div>
+                        <div class="soil-item">
+                            <div>🍃 Organic Carbon</div>
+                            <div id="carbonDisplay">--%</div>
+                        </div>
+                        <div class="soil-item">
+                            <div>🧬 NPK Status</div>
+                            <div id="npkDisplay">--</div>
+                        </div>
+                    </div>
+
+                    <div class="recommendations">
+                        <h4>💡 Farming Recommendations</h4>
+                        <ul id="recommendationsList">
+                            <li>Complete the prediction to get personalized recommendations</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="error-card" id="errorCard">
+                    <h4>❌ Error</h4>
+                    <p id="errorMessage">Something went wrong. Please try again.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const apiUrl = document.getElementById('apiUrl').value;
+            const apiKey = document.getElementById('apiKey').value;
+            
+            if (!apiKey) {
+                showError('Please enter your API key');
+                return;
+            }
+            
+            showLoading(true);
+            hideResults();
+            
+            // Collect form data
+            const formData = {
+                longitude: parseFloat(document.getElementById('longitude').value),
+                latitude: parseFloat(document.getElementById('latitude').value),
+                crop: document.getElementById('crop').value,
+                farm_size_acres: parseFloat(document.getElementById('farm_size_acres').value),
+                district: document.getElementById('district').value,
+                season: document.getElementById('season').value,
+                sowing_month: parseInt(document.getElementById('sowing_month').value),
+                temperature: parseFloat(document.getElementById('temperature').value),
+                humidity: parseFloat(document.getElementById('humidity').value),
+                rainfall: parseFloat(document.getElementById('rainfall').value),
+                wind_speed: parseFloat(document.getElementById('wind_speed').value),
+                pH: parseFloat(document.getElementById('pH').value),
+                organic_carbon: parseFloat(document.getElementById('organic_carbon').value),
+                N_available: parseFloat(document.getElementById('N_available').value),
+                P_available: parseFloat(document.getElementById('P_available').value),
+                K_available: parseFloat(document.getElementById('K_available').value)
+            };
+            
+            try {
+                const response = await fetch(`${apiUrl}/predict`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Prediction failed');
+                }
+                
+                showResults(data, formData);
+                
+            } catch (error) {
+                showError(error.message);
+            } finally {
+                showLoading(false);
+            }
+        });
+        
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+            document.getElementById('predictBtn').disabled = show;
+        }
+        
+        function showResults(data, formData) {
+            // Extract yield value from prediction text
+            const yieldMatch = data.prediction.match(/(\d+\.?\d*)/);
+            const yieldValue = yieldMatch ? yieldMatch[1] : '--';
+            
+            // Update main prediction
+            document.getElementById('yieldValue').textContent = yieldValue;
+            document.getElementById('yieldRange').textContent = 'kg/acre';
+            
+            // Update details
+            document.getElementById('cropType').textContent = formData.crop.charAt(0).toUpperCase() + formData.crop.slice(1);
+            document.getElementById('farmSize').textContent = formData.farm_size_acres + ' acres';
+            document.getElementById('districtInfo').textContent = formData.district;
+            document.getElementById('seasonInfo').textContent = formData.season.charAt(0).toUpperCase() + formData.season.slice(1);
+            
+            // Update weather info
+            document.getElementById('tempDisplay').textContent = formData.temperature + '°C';
+            document.getElementById('humidityDisplay').textContent = formData.humidity + '%';
+            document.getElementById('rainfallDisplay').textContent = formData.rainfall + 'mm';
+            document.getElementById('windDisplay').textContent = formData.wind_speed + 'km/h';
+            
+            // Update soil info
+            document.getElementById('phDisplay').textContent = formData.pH;
+            document.getElementById('carbonDisplay').textContent = formData.organic_carbon + '%';
+            document.getElementById('npkDisplay').textContent = `N:${formData.N_available} P:${formData.P_available} K:${formData.K_available}`;
+            
+            // Generate recommendations
+            generateRecommendations(formData, parseFloat(yieldValue));
+            
+            // Show results
+            document.getElementById('resultCard').classList.add('show');
+        }
+        
+        function generateRecommendations(formData, yieldValue) {
+            const recommendations = [];
+            
+            // Yield-based recommendations
+            if (yieldValue > 2000) {
+                recommendations.push('🌟 Excellent yield potential! Maintain current farming practices.');
+            } else if (yieldValue > 1500) {
+                recommendations.push('👍 Good yield expected. Consider optimizing fertilizer application.');
+            } else {
+                recommendations.push('⚠️ Yield could be improved. Review soil health and irrigation.');
+            }
+            
+            // Soil pH recommendations
+            if (formData.pH < 6.5) {
+                recommendations.push('🧪 Soil is acidic. Consider lime application to raise pH.');
+            } else if (formData.pH > 7.5) {
+                recommendations.push('🧪 Soil is alkaline. Consider gypsum application to lower pH.');
+            } else {
+                recommendations.push('✅ Soil pH is optimal for most crops.');
+            }
+            
+            // NPK recommendations
+            if (formData.N_available < 200) {
+                recommendations.push('🌱 Low nitrogen levels. Apply urea or organic manure.');
+            }
+            if (formData.P_available < 20) {
+                recommendations.push('🌱 Low phosphorus levels. Apply DAP or SSP fertilizer.');
+            }
+            if (formData.K_available < 250) {
+                recommendations.push('🌱 Low potassium levels. Apply MOP or organic potash.');
+            }
+            
+            // Weather-based recommendations
+            if (formData.rainfall < 400) {
+                recommendations.push('💧 Low rainfall expected. Plan for irrigation and drought-resistant varieties.');
+            } else if (formData.rainfall > 1000) {
+                recommendations.push('🌧️ High rainfall expected. Ensure proper drainage and disease management.');
+            }
+            
+            // Crop-specific recommendations
+            if (formData.crop === 'wheat') {
+                recommendations.push('🌾 For wheat: Sow timely, use certified seeds, and apply balanced fertilization.');
+            } else if (formData.crop === 'rice') {
+                recommendations.push('🍚 For rice: Maintain proper water levels and monitor for pest attacks.');
+            }
+            
+            // Update recommendations list
+            const list = document.getElementById('recommendationsList');
+            list.innerHTML = recommendations.map(rec => `<li>${rec}</li>`).join('');
+        }
+        
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorCard').classList.add('show');
+        }
+        
+        function hideResults() {
+            document.getElementById('resultCard').classList.remove('show');
+            document.getElementById('errorCard').classList.remove('show');
+        }
+        
+        // Auto-fill API key from URL parameter (for development)
+        const urlParams = new URLSearchParams(window.location.search);
+        const apiKeyParam = urlParams.get('apikey');
+        if (apiKeyParam) {
+            document.getElementById('apiKey').value = apiKeyParam;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+crop_type,district,predicted_yield_kg_per_hectare_count,predicted_yield_kg_per_hectare_mean,predicted_yield_kg_per_hectare_min,predicted_yield_kg_per_hectare_max,yield_category_<lambda>
+Cotton,Amritsar,1,5524.1,5524.1,5524.1,High
+Cotton,Bathinda,2,4858.1,4855.7,4860.5,High
+Cotton,Ludhiana,1,4875.5,4875.5,4875.5,High
+Cotton,Mohali,5,5138.9,4834.6,5518.1,High
+Cotton,Patiala,2,5199.3,4918.0,5480.6,High
+Rice,Mohali,1,5818.2,5818.2,5818.2,Medium
+Rice,Patiala,2,5433.0,5091.4,5774.6,Medium
+Wheat,Amritsar,2,507.1,505.0,509.1,Low
+Wheat,Jalandhar,1,497.7,497.7,497.7,Low
+Wheat,Ludhiana,2,509.9,501.2,518.5,Low
+Wheat,Patiala,1,504.3,504.3,504.3,Low

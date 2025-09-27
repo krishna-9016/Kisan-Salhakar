@@ -1,0 +1,142 @@
+/* frontend/style.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Gurmukhi:wght@400;700&display=swap');
+
+body {
+    font-family: 'Noto Sans Gurmukhi', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+    height: 90vh;
+    max-height: 800px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-header {
+    background-color: #007B55; /* A green shade for agriculture */
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.chat-header h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.chat-header p {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+.chat-box {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    max-width: 75%;
+    padding: 10px 15px;
+    border-radius: 18px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.user-message {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+.ai-message {
+    background-color: #e9e9eb;
+    color: #333;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.typing-indicator {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+}
+
+.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    margin: 0 2px;
+    background-color: #aaa;
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1.0); }
+}
+
+
+.chat-input {
+    padding: 15px;
+    border-top: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+#message-form {
+    display: flex;
+}
+
+#message-input {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 1em;
+    font-family: 'Noto Sans Gurmukhi', sans-serif;
+}
+
+#message-input:focus {
+    outline: none;
+    border-color: #007B55;
+    box-shadow: 0 0 0 2px rgba(0, 123, 85, 0.2);
+}
+
+#message-form button {
+    background-color: #007B55;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: 'Noto Sans Gurmukhi', sans-serif;
+    transition: background-color 0.2s;
+}
+
+#message-form button:hover {
+    background-color: #005f44;
+}

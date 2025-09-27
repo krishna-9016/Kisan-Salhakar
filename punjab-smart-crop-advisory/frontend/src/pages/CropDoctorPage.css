@@ -1,0 +1,137 @@
+/* General Page Styling */
+.crop-doctor-container {
+    background-color: #f7f9fc;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+.crop-doctor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.crop-doctor-main {
+    padding-top: 40px;
+}
+
+.upload-section, .camera-section {
+    padding: 40px;
+    text-align: center;
+}
+
+.webcam-feed {
+    border-radius: 12px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* --- 3D Flip Card --- */
+
+/* The card container sets the 3D perspective */
+.flip-card {
+    perspective: 1500px;
+    width: 100%;
+    /* Let the inner content define the height, but give it a ratio */
+    aspect-ratio: 3 / 4; 
+    min-height: 450px; /* Minimum height to prevent collapse */
+}
+
+/* The inner element handles the animation */
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+    transform-style: preserve-3d;
+}
+
+/* The 'is-flipped' class triggers the rotation */
+.flip-card.is-flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Common styles for both front and back faces */
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden; /* Safari */
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    overflow: hidden; /* Important to keep rounded corners */
+}
+
+/* Front face (image) */
+.flip-card-front {
+    background-color: #eee; /* Fallback background */
+}
+
+.preview-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the card */
+}
+
+/* Back face (results) */
+.flip-card-back {
+    transform: rotateY(180deg);
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+.result-content {
+    padding: 25px;
+    text-align: left;
+    overflow-y: auto; /* Enable scrolling for long content */
+    height: 100%;
+}
+
+.result-content h6 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.precautions-section {
+    margin-top: 15px;
+}
+
+.precautions-section p {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.precautions-section ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .flip-card {
+        min-height: 420px;
+    }
+}
+
+@media (max-width: 600px) {
+    .crop-doctor-header {
+        padding: 15px 20px;
+    }
+    .upload-section, .camera-section {
+        padding: 25px 15px;
+    }
+    .flip-card {
+        /* On small screens, allow height to be more flexible */
+        aspect-ratio: unset;
+        min-height: 480px;
+    }
+}

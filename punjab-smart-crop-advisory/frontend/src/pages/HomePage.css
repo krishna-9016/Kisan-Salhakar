@@ -1,0 +1,143 @@
+/* --- Global Styles & Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.home-page-container {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+}
+
+/* --- Video Background --- */
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: -2;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+/* --- Perfectly Aligned Header --- */
+.home-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-content nav .MuiButton-root {
+  margin-left: 16px;
+  transition: all 0.3s ease;
+}
+
+.header-content nav .MuiButton-root:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- NEW STYLES FOR THE LOGIN DROPDOWN --- */
+.login-menu-container {
+  display: inline-block;
+  position: relative;
+}
+
+/* --- Centered Main Content --- */
+.home-main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 1;
+  padding: 0 24px;
+}
+
+.main-title {
+  font-weight: 700 !important;
+  font-size: 3.8rem !important;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.main-subtitle {
+  font-size: 1.4rem !important;
+  margin-top: 16px !important;
+  max-width: 600px;
+  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+.chatbot-area {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.chatbot-toggle-button {
+  border-radius: 50px !important;
+  padding: 12px 24px !important;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.2) !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+}
+
+@media (max-width: 960px) {
+  .header-content nav {
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .header-content nav .MuiButton-root {
+    margin-left: 0;
+    margin-top: 8px;
+    width: 100%;
+  }
+
+  .main-title {
+    font-size: 2.5rem !important;
+  }
+  .main-subtitle {
+    font-size: 1.1rem !important;
+  }
+}

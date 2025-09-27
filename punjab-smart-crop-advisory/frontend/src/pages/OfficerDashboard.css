@@ -1,0 +1,102 @@
+:root {
+    --primary-green: #2e7d32;
+    --light-green: #e8f5e9;
+    --background-color: #f7f9fc;
+    --text-primary: #212121;
+    --text-secondary: #616161;
+    --card-bg: #ffffff;
+    --border-color: #eef2f6;
+    --shadow-light: rgba(145, 158, 171, 0.1);
+    --shadow-dark: rgba(145, 158, 171, 0.2);
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+/* --- MAIN LAYOUT --- */
+.officer-dashboard-layout {
+    display: flex;
+}
+
+.officer-content-area {
+    flex-grow: 1;
+    padding: 24px;
+    background-color: var(--background-color);
+    width: 100%;
+    overflow-x: hidden; /* Prevents horizontal scroll */
+}
+
+/* --- DRAWER / SIDEBAR --- */
+.officer-drawer {
+    background-color: var(--card-bg) !important;
+    border-right: none !important;
+}
+
+.drawer-header {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--primary-green);
+    font-weight: 700;
+}
+
+.drawer-list-item-button {
+    margin: 4px 16px !important;
+    border-radius: 8px !important;
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.drawer-list-item-button:hover,
+.drawer-list-item-button.active {
+    background-color: var(--light-green) !important;
+    color: var(--primary-green) !important;
+    font-weight: 600;
+}
+
+.drawer-list-item-button.active .MuiListItemIcon-root,
+.drawer-list-item-button:hover .MuiListItemIcon-root {
+    color: var(--primary-green) !important;
+}
+
+/* --- APP BAR / TOP NAVIGATION --- */
+.officer-appbar {
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: none !important;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+/* --- GENERAL CARD STYLING --- */
+.dashboard-paper-card {
+    background-color: var(--card-bg);
+    border-radius: 16px !important;
+    border: 1px solid var(--border-color);
+    box-shadow: none !important;
+    padding: 24px;
+    height: 100%;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.dashboard-paper-card:hover {
+    box-shadow: 0 12px 24px -4px var(--shadow-light) !important;
+    transform: translateY(-2px);
+}
+
+/* --- MAP PLOTTING PAGE FIX --- */
+.map-plotting-page-container {
+    height: calc(100vh - 64px - 48px); /* Full viewport height minus appbar and padding */
+    display: flex;
+    flex-direction: column;
+}
+
+.leaflet-container.map-view {
+    flex-grow: 1; /* Allows map to fill available space */
+    border-radius: 12px;
+    width: 100%;
+}

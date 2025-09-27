@@ -1,0 +1,72 @@
+// File: backend/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- EXISTING MODELS (with one addition to Farmer) ---
+
+model ExtensionOfficer {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Farmer {
+  id        String   @id @default(uuid())
+  name      String
+  phone     String   @unique
+  district  String
+  farms     Farm[]
+  createdAt DateTime @default(now())
+  
+  orders    Order[] // ADDED: Relation to orders created by this farmer for selling
+}
+
+model Farm {
+  id          String   @id @default(uuid())
+  farmerId    String
+  plotGeoJson Json
+  farmer      Farmer   @relation(fields: [farmerId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+
+// --- NEW MODELS FOR BUYER INTERFACE ---
+
+model Buyer {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String   // You will need this for buyer authentication
+  orders    Order[]  // Relation to orders purchased by this buyer
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id              String   @id @default(uuid())
+  produceName     String
+  quantity        Float    // Represents quantity, e.g., in kg
+  pricePerKg      Float
+  status          String   @default("Listed") // Tracks the order: Listed, Purchased, In-Transit, Delivered, Payment-Complete
+  transactionHash String?  // Optional: For storing the blockchain transaction hash
+
+  // Relation to the Farmer who is selling the produce
+  farmerId String
+  farmer   Farmer @relation(fields: [farmerId], references: [id])
+
+  // Relation to the Buyer who purchases the produce (optional until a purchase is made)
+  buyerId String?
+  buyer   Buyer?  @relation(fields: [buyerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

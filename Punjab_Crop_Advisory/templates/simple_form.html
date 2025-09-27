@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punjab Smart Crop Advisory - Simple</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #e8f5e8, #f0f9ff); min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 2rem 0; margin-bottom: 2rem; }
+        .card { border: none; box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-radius: 15px; }
+        .form-control { border-radius: 8px; }
+        .btn { border-radius: 8px; padding: 12px 30px; }
+        .result-card { background: linear-gradient(135deg, #d4edda, #d1ecf1); border-left: 5px solid #28a745; }
+        .recommendation { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; margin: 5px 0; border-radius: 5px; }
+        .data-section { background: white; padding: 15px; border-radius: 10px; margin: 10px 0; border-left: 4px solid #17a2b8; }
+        .location-input { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container text-center">
+            <h1 class="display-5 mb-2">🌾 पंजाब किसान मित्र – कृषि सलाह केंद्र</h1>
+            <p class="lead">Just Enter Your Location + Crop - We'll Handle the Rest!</p>
+            <p class="mb-0">🛰️ Auto-fetches Weather • Soil • Satellite Data</p>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if error %}
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-triangle"></i> {{ error }}
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <!-- Simple Input Form -->
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0"><i class="fas fa-map-marker-alt"></i> Super Simple Input</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <!-- Basic Info -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">👨‍🌾 Farmer Name</label>
+                                    <input type="text" class="form-control" name="farmer_name" value="{{ request.form.farmer_name or 'Farmer Singh' }}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">🏞️ Farm Size (Hectares)</label>
+                                    <input type="number" class="form-control" name="farm_size" value="{{ request.form.farm_size or '2' }}" step="0.1" min="0.1" required>
+                                </div>
+                            </div>
+
+                            <!-- Location Input -->
+                            <div class="location-input">
+                                <h6 class="text-success mb-3">📍 Farm Location</h6>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">🌐 Latitude</label>
+                                        <input type="number" class="form-control" name="latitude" value="{{ request.form.latitude or '30.901' }}" step="0.001" min="29" max="33" required>
+                                        <small class="text-muted">Punjab range: 29-33</small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">🌐 Longitude</label>
+                                        <input type="number" class="form-control" name="longitude" value="{{ request.form.longitude or '75.857' }}" step="0.001" min="73" max="77" required>
+                                        <small class="text-muted">Punjab range: 73-77</small>
+                                    </div>
+                                </div>
+                                
+                                <!-- Quick Location Buttons -->
+                                <div class="mb-3">
+                                    <small class="text-muted">Quick select major cities:</small><br>
+                                    <button type="button" class="btn btn-outline-info btn-sm me-1 mb-1" onclick="setLocation(30.901, 75.857)">Ludhiana</button>
+                                    <button type="button" class="btn btn-outline-info btn-sm me-1 mb-1" onclick="setLocation(31.634, 74.872)">Amritsar</button>
+                                    <button type="button" class="btn btn-outline-info btn-sm me-1 mb-1" onclick="setLocation(31.326, 75.576)">Jalandhar</button>
+                                    <button type="button" class="btn btn-outline-info btn-sm me-1 mb-1" onclick="setLocation(30.336, 76.392)">Patiala</button>
+                                    <button type="button" class="btn btn-outline-info btn-sm me-1 mb-1" onclick="setLocation(30.211, 74.946)">Bathinda</button>
+                                </div>
+                            </div>
+
+                            <!-- Crop Selection -->
+                            <div class="mb-4">
+                                <label class="form-label">🌾 Select Crop</label>
+                                <select class="form-control form-control-lg" name="crop_type" required>
+                                    <option value="">Choose your crop...</option>
+                                    {% for crop in crops %}
+                                    <option value="{{ crop }}" {% if request.form.crop_type == crop %}selected{% endif %}>
+                                        {{ crop }}
+                                        {% if crop == 'Wheat' %}(रबी - Rabi){% endif %}
+                                        {% if crop == 'Rice' %}(खरीफ - Kharif){% endif %}
+                                        {% if crop == 'Cotton' %}(खरीफ - Kharif){% endif %}
+                                        {% if crop == 'Sugarcane' %}(साल भर - Year round){% endif %}
+                                        {% if crop == 'Maize' %}(खरीफ - Kharif){% endif %}
+                                        {% if crop == 'Bajra' %}(खरीफ - Kharif){% endif %}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-lg w-100">
+                                <i class="fas fa-satellite"></i> Get Smart Prediction
+                            </button>
+                            
+                            <p class="text-center text-muted mt-3">
+                                <small>🤖 AI will automatically fetch:<br>
+                                Weather • Soil Analysis • Satellite Data</small>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="col-lg-6">
+                {% if show_result and result %}
+                <div class="card result-card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="fas fa-chart-line"></i> Smart Prediction Results</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="text-success">👨‍🌾 {{ result.farmer_name }}</h5>
+                        <p class="text-muted">{{ result.crop_type }} farming at {{ result.location }} ({{ result.coordinates }})</p>
+
+                        <!-- Key Metrics -->
+                        <div class="data-section">
+                            <h5 class="text-primary mb-2">📊 Yield Prediction</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Yield/Hectare:</strong><br>
+                                    <span class="h4 text-success">{{ result.predicted_yield }} kg/ha</span>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Total Production:</strong><br>
+                                    <span class="h4 text-info">{{ result.total_production }} kg</span>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <strong>💰 Estimated Income:</strong><br>
+                                <span class="h4 text-warning">₹{{ "{:,.0f}".format(result.estimated_income) }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Auto-fetched Data -->
+                        <div class="data-section">
+                            <h6 class="text-info">🌤️ Live Weather Data</h6>
+                            <div class="row">
+                                <div class="col-6">
+                                    <small><strong>Temperature:</strong> {{ result.weather_data.temperature }}°C<br>
+                                    <strong>Humidity:</strong> {{ result.weather_data.humidity }}%</small>
+                                </div>
+                                <div class="col-6">
+                                    <small><strong>Rainfall:</strong> {{ result.weather_data.rainfall }}mm<br>
+                                    <strong>Conditions:</strong> {{ result.weather_data.description }}</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="data-section">
+                            <h6 class="text-info">🌱 Auto Soil Analysis</h6>
+                            <div class="row">
+                                <div class="col-6">
+                                    <small><strong>pH:</strong> {{ result.soil_data.ph }}<br>
+                                    <strong>Nitrogen:</strong> {{ result.soil_data.nitrogen }} kg/ha</small>
+                                </div>
+                                <div class="col-6">
+                                    <small><strong>Phosphorus:</strong> {{ result.soil_data.phosphorus }} kg/ha<br>
+                                    <strong>Potassium:</strong> {{ result.soil_data.potassium }} kg/ha</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="data-section">
+                            <h6 class="text-info">🛰️ Satellite Analysis</h6>
+                            <small><strong>NDVI (Crop Health):</strong> {{ "%.3f"|format(result.satellite_data.ndvi) }}<br>
+                            <strong>Satellite Date:</strong> {{ result.satellite_data.satellite_date }}</small>
+                        </div>
+
+                        <!-- Recommendations -->
+                        <div class="mt-3">
+                            <h6 class="text-success">💡 AI Recommendations</h6>
+                            {% for rec in result.recommendations %}
+                            <div class="recommendation">{{ rec }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="mt-4">
+                            <button class="btn btn-outline-success btn-sm" onclick="window.print()">
+                                <i class="fas fa-print"></i> Print Report
+                            </button>
+                            <button class="btn btn-outline-info btn-sm" onclick="location.reload()">
+                                <i class="fas fa-refresh"></i> New Prediction
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="card">
+                    <div class="card-body text-center p-5">
+                        <i class="fas fa-map-marked-alt fa-5x text-muted mb-4"></i>
+                        <h4 class="text-muted">Waiting for Your Input</h4>
+                        <p class="text-muted">Enter your farm location and crop type to get instant AI-powered predictions!</p>
+                        
+                        <!-- What we fetch automatically -->
+                        <div class="mt-4">
+                            <h6 class="text-success">🤖 What We Auto-Fetch:</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled text-start">
+                                        <li>🌡️ Real-time weather</li>
+                                        <li>🌧️ Rainfall data</li>
+                                        <li>💨 Wind conditions</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled text-start">
+                                        <li>🌱 Soil NPK levels</li>
+                                        <li>🧪 pH analysis</li>
+                                        <li>🛰️ Satellite NDVI</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Quick Guide -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="text-success">📍 How to Find Your Coordinates:</h6>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <small><strong>Google Maps:</strong> Right-click your farm location, copy coordinates</small>
+                            </div>
+                            <div class="col-md-4">
+                                <small><strong>GPS Apps:</strong> Use any GPS app to get current location</small>
+                            </div>
+                            <div class="col-md-4">
+                                <small><strong>Quick Select:</strong> Use city buttons above for approximate location</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-4 mt-5">
+        <div class="container">
+            <p class="text-muted">&copy; 2024 Punjab Smart Crop Advisory. AI-powered farming made simple.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function setLocation(lat, lon) {
+            document.querySelector('input[name="latitude"]').value = lat;
+            document.querySelector('input[name="longitude"]').value = lon;
+        }
+        
+        // Auto-detect location if browser supports it
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    document.querySelector('input[name="latitude"]').value = position.coords.latitude.toFixed(3);
+                    document.querySelector('input[name="longitude"]').value = position.coords.longitude.toFixed(3);
+                });
+            }
+        }
+        
+        // Add a button to detect current location
+        document.addEventListener('DOMContentLoaded', function() {
+            const locationSection = document.querySelector('.location-input');
+            const detectBtn = document.createElement('button');
+            detectBtn.type = 'button';
+            detectBtn.className = 'btn btn-warning btn-sm';
+            detectBtn.innerHTML = '<i class="fas fa-crosshairs"></i> Detect My Location';
+            detectBtn.onclick = getLocation;
+            locationSection.appendChild(detectBtn);
+        });
+    </script>
+</body>
+</html>

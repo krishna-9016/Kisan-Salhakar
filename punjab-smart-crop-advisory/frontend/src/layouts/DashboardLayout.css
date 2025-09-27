@@ -1,0 +1,162 @@
+/* General Layout & Theme */
+:root {
+    --primary-green: #2e7d32; /* A nice, modern green */
+    --light-green: #e8f5e9;
+    --background-color: #f7f9fc;
+    --text-primary: #333;
+    --text-secondary: #757575;
+    --card-bg: #ffffff;
+    --border-color: #e0e0e0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+}
+
+/* Main Layout Wrapper */
+.dashboard-layout-main {
+    display: flex;
+    background-color: var(--background-color);
+}
+
+/* --- Sidebar / Drawer --- */
+.dashboard-drawer {
+    background-color: var(--card-bg) !important;
+    border-right: none !important;
+}
+
+.drawer-header {
+    padding: 16px;
+    font-weight: bold;
+    color: var(--primary-green);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.drawer-list-item {
+    color: var(--text-secondary);
+    margin: 8px 12px;
+    border-radius: 8px !important;
+}
+
+.drawer-list-item:hover {
+    background-color: var(--light-green) !important;
+    color: var(--primary-green);
+}
+
+.drawer-list-item.Mui-selected {
+    background-color: var(--light-green) !important;
+    color: var(--primary-green);
+    font-weight: bold;
+}
+
+.drawer-list-item .MuiListItemIcon-root {
+    color: inherit; /* Icon color matches text */
+}
+
+/* --- App Bar / Top Navigation --- */
+.dashboard-appbar {
+    background-color: var(--card-bg) !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.search-bar {
+    position: relative;
+    border-radius: 20px;
+    background-color: #f1f3f4;
+    margin-right: 16px;
+    margin-left: 0;
+    width: 100%;
+}
+.search-bar .MuiInputBase-input {
+    padding: 10px 10px 10px 40px;
+}
+.search-icon-wrapper {
+    padding: 0 12px;
+    height: 100%;
+    position: absolute;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+}
+
+/* --- Main Content Area --- */
+.dashboard-content-area {
+    flex-grow: 1;
+    padding: 24px;
+    background-color: var(--background-color);
+    min-height: 100vh;
+}
+
+/* --- Generic Card Style --- */
+.dashboard-card {
+    background-color: var(--card-bg);
+    border-radius: 16px !important;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04) !important;
+    padding: 20px;
+    height: 100%;
+}
+
+/* Add to your existing DashboardLayout.css */
+
+/* Tab-like buttons for "By Category" / "By Health" */
+.tab-toggle-group {
+    background-color: #f0f2f5;
+    border-radius: 20px;
+    padding: 4px;
+    display: inline-flex;
+}
+
+.tab-button {
+    background-color: transparent;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 18px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    background-color: #ffffff;
+    color: var(--primary-green);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* My Crops List Styles */
+.my-crops-list .crop-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.my-crops-list .crop-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.my-crops-list .crop-info {
+    flex-grow: 1;
+}
+
+.my-crops-list .progress-bar-bg {
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    height: 8px;
+    width: 100%;
+}
+
+.my-crops-list .progress-bar-fg {
+    background-color: var(--primary-green);
+    height: 100%;
+    border-radius: 8px;
+}

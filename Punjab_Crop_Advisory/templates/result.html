@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction Results - Punjab Crop Advisory{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Prediction Results -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="fas fa-chart-line"></i> Yield Prediction Results</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="text-center mb-4">
+                                <h2 class="display-4 text-success">{{ result.predicted_yield }}</h2>
+                                <p class="lead">kg/hectare</p>
+                                <span class="badge bg-{{ 'success' if result.yield_category == 'High' else 'warning' if result.yield_category == 'Medium' else 'danger' }} fs-6">
+                                    {{ result.yield_category }} Yield
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Prediction Details</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>Crop:</strong> {{ input_data.crop_type }}</li>
+                                <li><strong>District:</strong> {{ input_data.district }}</li>
+                                <li><strong>Confidence Interval:</strong> {{ result.lower_bound }} - {{ result.upper_bound }} kg/ha</li>
+                                <li><strong>Model Used:</strong> {{ result.model_used }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Indicators -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-tachometer-alt"></i> Key Agricultural Indicators</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Vegetation Health Score</label>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" style="width: {{ (result.engineered_features.vegetation_health_score * 100)|round }}%">
+                                        {{ "%.3f"|format(result.engineered_features.vegetation_health_score) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Soil Fertility Index</label>
+                                <div class="progress">
+                                    <div class="progress-bar bg-info" style="width: {{ (result.engineered_features.soil_fertility_index * 100)|round }}%">
+                                        {{ "%.3f"|format(result.engineered_features.soil_fertility_index) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Overall Yield Potential</label>
+                                <div class="progress">
+                                    <div class="progress-bar bg-primary" style="width: {{ (result.engineered_features.yield_potential_score * 100)|round }}%">
+                                        {{ "%.3f"|format(result.engineered_features.yield_potential_score) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Heat Stress Level</label>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" style="width: {{ (result.engineered_features.heat_stress * 100)|round }}%">
+                                        {{ "%.3f"|format(result.engineered_features.heat_stress) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Drought Risk</label>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" style="width: {{ (result.engineered_features.drought_risk * 100)|round }}%">
+                                        {{ "%.3f"|format(result.engineered_features.drought_risk) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            {% if result.recommendations %}
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-lightbulb"></i> Agricultural Recommendations</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for recommendation in result.recommendations %}
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            {{ recommendation }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Input Summary -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-info-circle"></i> Input Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h6 class="text-success">🌾 Crop Information</h6>
+                            <ul class="list-unstyled small">
+                                <li><strong>Crop:</strong> {{ input_data.crop_type }}</li>
+                                <li><strong>District:</strong> {{ input_data.district }}</li>
+                                <li><strong>Location:</strong> {{ "%.3f"|format(input_data.latitude) }}, {{ "%.3f"|format(input_data.longitude) }}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="text-primary">🛰️ Satellite Data</h6>
+                            <ul class="list-unstyled small">
+                                <li><strong>NDVI:</strong> {{ "%.3f"|format(input_data.ndvi_mean) }}</li>
+                                <li><strong>NDWI:</strong> {{ "%.3f"|format(input_data.ndwi_mean) }}</li>
+                            </ul>
+                            
+                            <h6 class="text-warning">🌤️ Weather</h6>
+                            <ul class="list-unstyled small">
+                                <li><strong>Temperature:</strong> {{ input_data.temperature }}°C</li>
+                                <li><strong>Humidity:</strong> {{ input_data.humidity }}%</li>
+                                <li><strong>Rainfall:</strong> {{ input_data.rainfall }}mm</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="text-info">🌱 Soil Properties</h6>
+                            <ul class="list-unstyled small">
+                                <li><strong>pH:</strong> {{ input_data.pH }}</li>
+                                <li><strong>Organic Carbon:</strong> {{ input_data.organic_carbon }}%</li>
+                                <li><strong>Nitrogen:</strong> {{ input_data.N_available }} kg/ha</li>
+                                <li><strong>Phosphorus:</strong> {{ input_data.P_available }} kg/ha</li>
+                                <li><strong>Potassium:</strong> {{ input_data.K_available }} kg/ha</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="text-center">
+                <a href="{{ url_for('predict') }}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Make Another Prediction
+                </a>
+                <button class="btn btn-secondary" onclick="window.print()">
+                    <i class="fas fa-print"></i> Print Results
+                </button>
+                <button class="btn btn-info" onclick="exportResults()">
+                    <i class="fas fa-download"></i> Export Results
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function exportResults() {
+    const results = {
+        prediction: {
+            crop: "{{ input_data.crop_type }}",
+            district: "{{ input_data.district }}",
+            predicted_yield: {{ result.predicted_yield }},
+            yield_category: "{{ result.yield_category }}",
+            confidence_range: [{{ result.lower_bound }}, {{ result.upper_bound }}],
+            model_used: "{{ result.model_used }}"
+        },
+        indicators: {
+            vegetation_health_score: {{ result.engineered_features.vegetation_health_score }},
+            soil_fertility_index: {{ result.engineered_features.soil_fertility_index }},
+            yield_potential_score: {{ result.engineered_features.yield_potential_score }},
+            heat_stress: {{ result.engineered_features.heat_stress }},
+            drought_risk: {{ result.engineered_features.drought_risk }}
+        },
+        recommendations: {{ result.recommendations|tojson }},
+        input_data: {{ input_data|tojson }},
+        timestamp: new Date().toISOString()
+    };
+    
+    const dataStr = JSON.stringify(results, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    
+    const exportFileDefaultName = `crop_prediction_${new Date().toISOString().split('T')[0]}.json`;
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+}
+</script>
+{% endblock %}
