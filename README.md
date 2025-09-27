@@ -72,7 +72,7 @@ cp .env.example .env
 # Start development servers
 npm run dev   # for frontend
 npm start     # for backend
-
+```
 
 🎯 Usage
 
