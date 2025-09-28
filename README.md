@@ -131,5 +131,3 @@ MIT License. Free to use and adapt with attribution.
 
 ---
 
-⚡ This README is **professional, jury-friendly, and GitHub-ready**.  
-👉 Do you want me to also prepare a **shorter version** (1-page lightweight README) that’s more startup-style (for investors/jury quick view)?
